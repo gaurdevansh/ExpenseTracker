@@ -2,4 +2,11 @@
     <string name="app_name">ExpenseTracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="spinner_items">
+        <item>Fruits</item>
+        <item>Food</item>
+        <item>Entertainment</item>
+        <item>Bills</item>
+        <item>Lifestyle</item>
+    </string-array>
 </resources>

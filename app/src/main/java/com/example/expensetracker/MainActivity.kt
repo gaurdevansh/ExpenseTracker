@@ -1,5 +1,6 @@
 package com.example.expensetracker
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         var navController = findNavController(R.id.navController)
         var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.setupWithNavController(navController)
+
+        binding.addTransactionBtn.setOnClickListener {
+            startActivity(Intent(this, AddTransactionActivity::class.java))
+        }
 
     }
 }
