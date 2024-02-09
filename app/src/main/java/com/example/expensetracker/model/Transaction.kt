@@ -9,7 +9,7 @@ data class Transaction (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val title: String,
-    val type: String,
-    val amount: Double,
+    val category: String,
+    val amount: Int,
     val dateTime: LocalDateTime
 )
