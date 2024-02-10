@@ -30,6 +30,6 @@ class TransactionAdapter(private val transactionList: List<Transaction>): Recycl
         holder.title.text = trans.title
         holder.category.text = trans.category
         holder.tvAmount.text = trans.amount.toString()
-        holder.date.text = trans.dateTime.toString()
+        holder.date.text = trans.date.toString()
     }
 }
