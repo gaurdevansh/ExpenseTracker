@@ -1,31 +1,29 @@
 package com.example.expensetracker.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.expensetracker.R
 import com.example.expensetracker.TransactionAdapter
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.FragmentTransactionBinding
-import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 
 
 class TransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentTransactionBinding
-    private var transactionList: ArrayList<Transaction> = ArrayList()
+    //private val viewModel : TransactionViewModel by activityViewModels()
     private val viewModel: TransactionViewModel by viewModels {
         TransactionViewModelFactory((requireActivity().application as TransactionApplication).repository)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,25 +38,13 @@ class TransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpTransactionData()
         binding.transactionRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-        binding.transactionRecyclerview.adapter = TransactionAdapter(transactionList)
-    }
-
-    private fun setUpTransactionData() {
-        transactionList.add(Transaction(title = "Netflix", category = "Entertainment", amount = 199, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Dinner", category = "Food", amount = 120, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Tea", category = "Food", amount = 10, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Lunch", category = "Food", amount = 70, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Netflix", category = "Entertainment", amount = 199, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Dinner", category = "Food", amount = 120, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Tea", category = "Food", amount = 10, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Lunch", category = "Food", amount = 70, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Netflix", category = "Entertainment", amount = 199, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Dinner", category = "Food", amount = 120, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Tea", category = "Food", amount = 10, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-        transactionList.add(Transaction(title = "Lunch", category = "Food", amount = 70, date = LocalDate.of(2024, 2, 12), time = LocalTime.now()))
-
+        val adapter = TransactionAdapter()
+        binding.transactionRecyclerview.adapter = adapter
+        viewModel.getTransactions().observe(viewLifecycleOwner, Observer { transactionList ->
+            transactionList?.let { adapter.submitTransactionData(it) }
+            Log.d("****", "onViewCreated: ${transactionList.toString()}")
+        })
     }
 
 }

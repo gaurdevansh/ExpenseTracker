@@ -11,11 +11,12 @@ import com.example.expensetracker.utils.Converters
 
 @Database(entities = [Transaction::class], version = 1)
 @TypeConverters(Converters::class)
-public abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao
 
     companion object {
+        @Volatile
         private var INSTANCE: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
@@ -24,7 +25,9 @@ public abstract class AppDatabase: RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "expense_tracker_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

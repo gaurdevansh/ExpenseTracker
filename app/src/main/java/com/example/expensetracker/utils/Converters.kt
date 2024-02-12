@@ -1,21 +1,22 @@
 package com.example.expensetracker.utils
 
 import androidx.room.TypeConverter
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object Converters {
-    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
 
     @TypeConverter
     @JvmStatic
-    fun toLocalDateTime(value: String): LocalDateTime {
-        return LocalDateTime.parse(value, formatter)
+    fun toLocalDate(value: String): LocalDate {
+        return LocalDate.parse(value, formatter)
     }
 
     @TypeConverter
     @JvmStatic
-    fun fromLocalDateTime(date: LocalDateTime): String {
+    fun fromLocalDate(date: LocalDate): String {
         return date.format(formatter)
     }
 }

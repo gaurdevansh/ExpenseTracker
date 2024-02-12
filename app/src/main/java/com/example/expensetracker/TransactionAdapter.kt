@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.model.Transaction
 
-class TransactionAdapter(private val transactionList: List<Transaction>): RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+class TransactionAdapter(): RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
+    private var transactionList: List<Transaction> = ArrayList()
     inner class TransactionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.tvTitle)
-        val category = itemView.findViewById<TextView>(R.id.tvCategory)
-        val tvAmount = itemView.findViewById<TextView>(R.id.tvAmount)
-        val date = itemView.findViewById<TextView>(R.id.tvDate)
+        val title: TextView = itemView.findViewById<TextView>(R.id.tvTitle)
+        val category: TextView = itemView.findViewById<TextView>(R.id.tvCategory)
+        val tvAmount: TextView = itemView.findViewById<TextView>(R.id.tvAmount)
+        val date: TextView = itemView.findViewById<TextView>(R.id.tvDate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -26,10 +27,15 @@ class TransactionAdapter(private val transactionList: List<Transaction>): Recycl
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val trans = transactionList.get(position)
+        val trans = transactionList[position]
         holder.title.text = trans.title
         holder.category.text = trans.category
         holder.tvAmount.text = trans.amount.toString()
-        holder.date.text = trans.date.toString()
+       // holder.date.text = trans.date.toString()
+    }
+
+    fun submitTransactionData(transactionList: List<Transaction>) {
+        this.transactionList = transactionList
+        this.notifyDataSetChanged()
     }
 }

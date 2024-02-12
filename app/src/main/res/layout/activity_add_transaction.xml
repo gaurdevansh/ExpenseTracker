@@ -11,114 +11,114 @@
         android:id="@+id/tvHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
-        android:textSize="32sp"
-        android:textColor="@color/black"
         android:text="Add Transaction"
-        android:textStyle="bold" />
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Amount"
-        app:layout_constraintTop_toBottomOf="@id/tvHeading"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="22sp"
         android:textColor="@color/black"
-        android:layout_marginTop="24dp"/>
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeading" />
 
     <EditText
         android:id="@+id/etAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvAmount"
-        app:layout_constraintBottom_toBottomOf="@id/tvAmount"
-        app:layout_constraintStart_toEndOf="@id/tvAmount"
+        android:layout_marginStart="16dp"
         android:inputType="number"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvAmount"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvAmount"
+        app:layout_constraintTop_toTopOf="@id/tvAmount" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Title"
-        app:layout_constraintTop_toBottomOf="@id/tvAmount"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="22sp"
         android:textColor="@color/black"
-        android:layout_marginTop="24dp"/>
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAmount" />
 
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvTitle"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toEndOf="@id/tvTitle"
+        android:layout_marginStart="16dp"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvTitle"
+        app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
     <TextView
         android:id="@+id/tvCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Category"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="22sp"
         android:textColor="@color/black"
-        android:layout_marginTop="24dp"/>
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvCategory"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@id/tvCategory"
-        app:layout_constraintStart_toEndOf="@id/tvCategory"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintStart_toEndOf="@id/tvCategory"
+        app:layout_constraintTop_toTopOf="@id/tvCategory" />
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Date"
-        app:layout_constraintTop_toBottomOf="@id/tvCategory"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="22sp"
         android:textColor="@color/black"
-        android:layout_marginTop="24dp"/>
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCategory" />
 
     <TextView
         android:id="@+id/tvSelectedDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvDate"
-        app:layout_constraintBottom_toBottomOf="@id/tvDate"
-        app:layout_constraintStart_toEndOf="@id/tvDate"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
         android:text="Click to Select Date"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintBottom_toBottomOf="@id/tvDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvDate"
+        app:layout_constraintTop_toTopOf="@id/tvDate" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
-        android:text="Add" />
+        android:text="Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
