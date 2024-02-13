@@ -1,16 +1,12 @@
-package com.example.expensetracker
+package com.example.expensetracker.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.expensetracker.R
 import com.example.expensetracker.databinding.ActivityMainBinding
-import com.example.expensetracker.viewmodel.TransactionViewModel
-import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

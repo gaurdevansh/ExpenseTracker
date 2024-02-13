@@ -1,13 +1,19 @@
-package com.example.expensetracker
+package com.example.expensetracker.activity
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import com.example.expensetracker.R
+import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.ActivityAddTransactionBinding
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.viewmodel.TransactionViewModel
@@ -42,6 +48,9 @@ class AddTransactionActivity : AppCompatActivity() {
         binding.addBtn.setOnClickListener {
             checkInputs()
         }
+        binding.menuBtn.setOnClickListener {
+            openPopupMenu()
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -66,9 +75,9 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun checkInputs() {
-        val title = binding.tvTitle.text.toString().trim()
-        val category = binding.tvCategory.text.toString().trim()
-        val amount = binding.tvAmount.text.toString().trim()
+        val title = binding.etTitle.text.toString().trim()
+        val category = binding.categorySpinner.selectedItem.toString()
+        val amount = binding.etAmount.text.toString().trim()
         val date = selectedDate
         if(title.isNotEmpty() && category.isNotEmpty() || amount.isNotEmpty()
             && date.toString().isNotEmpty()) {
@@ -81,5 +90,43 @@ class AddTransactionActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT).show()
             finish()
         }
+    }
+
+    private fun openPopupMenu() {
+        val popupMenu = PopupMenu(this, binding.menuBtn)
+        popupMenu.inflate(R.menu.add_transaction_menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when(menuItem.itemId) {
+                R.id.category -> {
+                    showAddCategoryDialog()
+                    true
+                }
+                R.id.subCategory -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun showAddCategoryDialog() {
+        val editText = EditText(this)
+        editText.hint = "Enter Category"
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Enter Category")
+            .setView(editText)
+            .setPositiveButton("Save") { dialogInterface: DialogInterface, i: Int ->
+                val enteredCategory = editText.text.toString()
+            }
+            .setNegativeButton("Cancel") {dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.dismiss()
+            }
+            .create()
+
+        alertDialog.show()
     }
 }

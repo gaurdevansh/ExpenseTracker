@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.expensetracker.TransactionAdapter
+import com.example.expensetracker.adapter.TransactionAdapter
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.FragmentTransactionBinding
 import com.example.expensetracker.viewmodel.TransactionViewModel

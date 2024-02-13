@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".AddTransactionActivity">
+    tools:context=".activity.AddTransactionActivity">
 
     <TextView
         android:id="@+id/tvHeading"
@@ -19,6 +19,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/menuBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_menu"
+        app:layout_constraintTop_toTopOf="@id/tvHeading"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeading"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/tvAmount"
