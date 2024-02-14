@@ -43,7 +43,6 @@ class TransactionFragment : Fragment() {
         binding.transactionRecyclerview.adapter = adapter
         viewModel.getTransactions().observe(viewLifecycleOwner, Observer { transactionList ->
             transactionList?.let { adapter.submitTransactionData(it) }
-            Log.d("****", "onViewCreated: ${transactionList.toString()}")
         })
     }
 

@@ -12,11 +12,17 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.example.expensetracker.R
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.ActivityAddTransactionBinding
+import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
+import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
+import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
 import java.time.LocalDate
 import java.util.Calendar
@@ -27,18 +33,28 @@ class AddTransactionActivity : AppCompatActivity() {
     private val viewModel: TransactionViewModel by viewModels {
         TransactionViewModelFactory((application as TransactionApplication).repository)
     }
+    private val categoryViewModel: ExpenseCategoryViewModel by viewModels {
+        ExpenseCategoryViewModelFactory((application as TransactionApplication).expenseCategoryRepository)
+    }
     private lateinit var selectedDate: LocalDate
+    private lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var adapter = ArrayAdapter.createFromResource(
+        adapter = ArrayAdapter<String>(
             this,
-            R.array.spinner_items,
             android.R.layout.simple_spinner_item
         )
+        adapter.clear()
+        categoryViewModel.getAllExpenseCategory().observe(this, Observer { categoryList ->
+            val list = categoryList.map { it.title }
+            adapter.addAll(list)
+        })
+        adapter.notifyDataSetChanged()
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = adapter
 
@@ -121,6 +137,10 @@ class AddTransactionActivity : AppCompatActivity() {
             .setView(editText)
             .setPositiveButton("Save") { dialogInterface: DialogInterface, i: Int ->
                 val enteredCategory = editText.text.toString()
+                val expenseCategory = ExpenseCategory(title = enteredCategory)
+                categoryViewModel.insert(expenseCategory)
+                adapter.clear()
+                adapter.notifyDataSetChanged()
             }
             .setNegativeButton("Cancel") {dialogInterface: DialogInterface, i: Int ->
                 dialogInterface.dismiss()
