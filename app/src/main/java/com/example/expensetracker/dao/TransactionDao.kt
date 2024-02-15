@@ -20,6 +20,6 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table")
     fun getTransactions(): LiveData<List<Transaction>>
 
-    @Query("SELECT * FROM transaction_table where date >= :startDate")
-    fun getTransactionByDate(startDate: LocalDate): LiveData<List<Transaction>>
+    @Query("SELECT * FROM transaction_table where date >= :startDate AND date <= :endDate")
+    fun getTransactionByDate(startDate: LocalDate, endDate: LocalDate): LiveData<List<Transaction>>
 }

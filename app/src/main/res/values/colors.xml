@@ -11,4 +11,7 @@
     <color name="add_btn">#EC60EA</color>
     <color name="green">#32CD32</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="blue">#0000FF</color>
+    <color name="gunmetal_grey">#818589</color>
+    <color name="charcoal">#36454F</color>
 </resources>

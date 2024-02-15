@@ -9,4 +9,9 @@
         <item>Bills</item>
         <item>Lifestyle</item>
     </string-array>
+
+    <string name="transaction_history">Transaction History</string>
+    <string name="date_form">Date From</string>
+    <string name="date_to">Date To</string>
+    <string name="go">GO</string>
 </resources>
