@@ -58,7 +58,7 @@ class AddTransactionActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = adapter
 
-        binding.tvSelectedDate.setOnClickListener {
+        binding.dateSelector.selectorLayout.setOnClickListener {
             showDatePickerDialog()
         }
         binding.addBtn.setOnClickListener {
@@ -67,6 +67,7 @@ class AddTransactionActivity : AppCompatActivity() {
         binding.menuBtn.setOnClickListener {
             openPopupMenu()
         }
+        binding.dateSelector.tvSelectedDate.text = LocalDate.now().toString()
     }
 
     private fun showDatePickerDialog() {
@@ -81,7 +82,7 @@ class AddTransactionActivity : AppCompatActivity() {
             month: Int, day: Int ->
                 //val selectedDate = "$day/${month+1}/$year"
                 selectedDate = LocalDate.of(year, month+1, day)
-                binding.tvSelectedDate.text = selectedDate.toString()
+                binding.dateSelector.tvSelectedDate.text = selectedDate.toString()
             },
             year,
             month,
@@ -105,6 +106,8 @@ class AddTransactionActivity : AppCompatActivity() {
             Toast.makeText(this, "Transaction Successfully Saved",
                 Toast.LENGTH_SHORT).show()
             finish()
+        } else {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -135,7 +138,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Enter Category")
             .setView(editText)
-            .setPositiveButton("Save") { dialogInterface: DialogInterface, i: Int ->
+            .setPositiveButton("Save") { _: DialogInterface, _: Int ->
                 val enteredCategory = editText.text.toString()
                 val expenseCategory = ExpenseCategory(title = enteredCategory)
                 categoryViewModel.insert(expenseCategory)

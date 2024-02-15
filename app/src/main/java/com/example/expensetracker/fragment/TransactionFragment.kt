@@ -14,6 +14,7 @@ import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.FragmentTransactionBinding
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
+import java.time.LocalDate
 
 
 class TransactionFragment : Fragment() {
@@ -41,7 +42,10 @@ class TransactionFragment : Fragment() {
         binding.transactionRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         val adapter = TransactionAdapter()
         binding.transactionRecyclerview.adapter = adapter
-        viewModel.getTransactions().observe(viewLifecycleOwner, Observer { transactionList ->
+        /*viewModel.getTransactions().observe(viewLifecycleOwner, Observer { transactionList ->
+            transactionList?.let { adapter.submitTransactionData(it) }
+        })*/
+        viewModel.getTransactionByDate(LocalDate.now(), LocalDate.now()).observe(viewLifecycleOwner, Observer { transactionList ->
             transactionList?.let { adapter.submitTransactionData(it) }
         })
     }

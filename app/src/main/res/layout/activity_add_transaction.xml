@@ -108,18 +108,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCategory" />
 
-    <TextView
+    <include
+        android:id="@+id/dateSelector"
+        layout="@layout/date_selector_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvDate"
+        app:layout_constraintTop_toTopOf="@id/tvDate"
+        app:layout_constraintBottom_toBottomOf="@id/tvDate"
+        android:layout_marginStart="24dp" />
+
+    <!--<TextView
         android:id="@+id/tvSelectedDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Click to Select Date"
+        android:text="Today's Date"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/tvDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDate"
-        app:layout_constraintTop_toTopOf="@id/tvDate" />
+        app:layout_constraintTop_toTopOf="@id/tvDate" />-->
 
     <Button
         android:id="@+id/addBtn"

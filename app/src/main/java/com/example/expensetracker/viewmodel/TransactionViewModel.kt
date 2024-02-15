@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.repository.TransactionRepository
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class TransactionViewModel(private val repository: TransactionRepository): ViewModel() {
 
@@ -17,5 +18,9 @@ class TransactionViewModel(private val repository: TransactionRepository): ViewM
 
     fun getTransactions(): LiveData<List<Transaction>> {
         return repository.getTransactions()
+    }
+
+    fun getTransactionByDate(startData: LocalDate, endDate: LocalDate): LiveData<List<Transaction>> {
+        return repository.getTransactionByDate(startData, endDate)
     }
 }
