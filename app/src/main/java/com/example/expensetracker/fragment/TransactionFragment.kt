@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.R
 import com.example.expensetracker.adapter.TransactionAdapter
 import com.example.expensetracker.TransactionApplication
+import com.example.expensetracker.activity.MainActivity
 import com.example.expensetracker.databinding.FragmentTransactionBinding
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
@@ -26,11 +27,13 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentTransactionBinding
     //private val viewModel : TransactionViewModel by activityViewModels()
-    private val viewModel: TransactionViewModel by viewModels {
+    /*private val viewModel: TransactionViewModel by viewModels {
         TransactionViewModelFactory((requireActivity().application as TransactionApplication).repository)
-    }
-    private lateinit var fromDate: LocalDate
-    private lateinit var toDate: LocalDate
+    }*/
+    private lateinit var viewModel: TransactionViewModel
+    //private lateinit var fromDate: LocalDate
+    //private lateinit var toDate: LocalDate
+    private lateinit var adapter: TransactionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +49,31 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as MainActivity).viewModel
         binding.transactionRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = TransactionAdapter()
+        adapter = TransactionAdapter()
         binding.transactionRecyclerview.adapter = adapter
         /*viewModel.getTransactions().observe(viewLifecycleOwner, Observer { transactionList ->
             transactionList?.let { adapter.submitTransactionData(it) }
         })*/
-        viewModel.getTransactionByDate(LocalDate.now(), LocalDate.now()).observe(viewLifecycleOwner, Observer { transactionList ->
-            transactionList?.let { adapter.submitTransactionData(it) }
-        })
-        fromDate = LocalDate.now()
-        toDate = LocalDate.now()
+
+        fetchDataFromDb(LocalDate.now(), LocalDate.now())
         binding.fromDateSelector.selectorLayout.setOnClickListener(this)
         binding.toDateSelector.selectorLayout.setOnClickListener(this)
         binding.goBtn.setOnClickListener(this)
+        binding.fromDateSelector.tvSelectedDate.text = viewModel.fromDate.toString()
+        binding.toDateSelector.tvSelectedDate.text = viewModel.toDate.toString()
+
+        viewModel.data.observe(viewLifecycleOwner, Observer {
+            adapter.submitTransactionData(it)
+        })
+    }
+
+    private fun fetchDataFromDb(startDate: LocalDate, endDate: LocalDate) {
+        /*viewModel.getTransactionByDate(startDate, endDate).observe(viewLifecycleOwner, Observer { transactionList ->
+            transactionList?.let { adapter.submitTransactionData(it) }
+        })*/
+        viewModel.getTransactionByDate(startDate, endDate)
     }
 
     override fun onClick(view: View?) {
@@ -71,7 +85,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
                 showDatePickerDialog("to")
             }
             R.id.goBtn -> {
-                viewModel.getTransactionByDate(fromDate, toDate)
+                fetchDataFromDb(viewModel.fromDate,viewModel.toDate)
             }
         }
     }
@@ -87,11 +101,11 @@ class TransactionFragment : Fragment(), View.OnClickListener {
             DatePickerDialog.OnDateSetListener { view: DatePicker?, year: Int,
                                                  month: Int, day: Int ->
                 if(type == "from") {
-                    fromDate = LocalDate.of(year, month + 1, day)
-                    binding.fromDateSelector.tvSelectedDate.text = fromDate.toString()
+                    viewModel.fromDate = LocalDate.of(year, month + 1, day)
+                    binding.fromDateSelector.tvSelectedDate.text = viewModel.fromDate.toString()
                 } else {
-                    toDate = LocalDate.of(year, month + 1, day)
-                    binding.toDateSelector.tvSelectedDate.text = toDate.toString()
+                    viewModel.toDate = LocalDate.of(year, month + 1, day)
+                    binding.toDateSelector.tvSelectedDate.text = viewModel.toDate.toString()
                 }
             },
             year,

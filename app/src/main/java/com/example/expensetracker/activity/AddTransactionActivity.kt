@@ -68,6 +68,7 @@ class AddTransactionActivity : AppCompatActivity() {
             openPopupMenu()
         }
         binding.dateSelector.tvSelectedDate.text = LocalDate.now().toString()
+        selectedDate = LocalDate.now()
     }
 
     private fun showDatePickerDialog() {
