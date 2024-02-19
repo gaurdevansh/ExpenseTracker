@@ -57,7 +57,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
             transactionList?.let { adapter.submitTransactionData(it) }
         })*/
 
-        fetchDataFromDb(LocalDate.now(), LocalDate.now())
+        fetchDataFromDb(viewModel.fromDate, viewModel.toDate)
         binding.fromDateSelector.selectorLayout.setOnClickListener(this)
         binding.toDateSelector.selectorLayout.setOnClickListener(this)
         binding.goBtn.setOnClickListener(this)
