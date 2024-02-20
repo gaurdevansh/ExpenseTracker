@@ -29,8 +29,10 @@ class TransactionViewModel(private val repository: TransactionRepository): ViewM
 
     fun getTransactionByDate(startData: LocalDate, endDate: LocalDate) {
         //_data.postValue(repository.getTransactionByDate(startData, endDate))
-        repository.getTransactionByDate(startData, endDate).observeForever { newData ->
-            data.postValue(newData)
+        viewModelScope.launch {
+            repository.getTransactionByDate(startData, endDate).observeForever { newData ->
+                data.postValue(newData)
+            }
         }
     }
 

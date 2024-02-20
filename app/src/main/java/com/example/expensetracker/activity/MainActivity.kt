@@ -10,6 +10,7 @@ import com.example.expensetracker.R
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.ActivityMainBinding
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
+import com.example.expensetracker.viewmodel.HomeViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
 import com.example.expensetracker.viewmodelFactory.HomeViewModelFactory
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     val expenseViewModel: ExpenseCategoryViewModel by viewModels {
         ExpenseCategoryViewModelFactory((application as TransactionApplication).expenseCategoryRepository)
     }
-    val homeViewModel: TransactionViewModel by viewModels {
+    val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory((application as TransactionApplication).repository)
     }
 

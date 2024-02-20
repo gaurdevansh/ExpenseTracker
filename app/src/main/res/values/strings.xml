@@ -15,4 +15,9 @@
     <string name="date_to">Date To</string>
     <string name="go">GO</string>
     <string name="track_your_expense">Keep a track of all your expense</string>
+    <string name="this_month">This Month</string>
+    <string name="this_week">This Week</string>
+    <string name="expense_so_far">Expense So Far</string>
+    <string name="recent_expense">Recent Expenses</string>
+    <string name="view_all">View All</string>
 </resources>

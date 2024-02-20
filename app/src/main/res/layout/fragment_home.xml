@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
+    android:padding="16dp"
     tools:context=".fragment.HomeFragment">
 
     <androidx.cardview.widget.CardView
@@ -14,8 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:cardCornerRadius="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp">
+        android:layout_marginTop="24dp">
 
         <ImageView
             android:id="@+id/profileImg"
@@ -45,7 +44,100 @@
         app:layout_constraintTop_toBottomOf="@id/greetingTv"
         android:text="@string/track_your_expense"
         android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@color/gray" />
+
+    <TextView
+        android:id="@+id/tvThisMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/profileCardView"
+        app:layout_constraintStart_toStartOf="@id/profileCardView"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/this_month"
+        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/round_textview"/>
+
+    <TextView
+        android:id="@+id/tvThisWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tvThisMonth"
+        app:layout_constraintStart_toEndOf="@id/tvThisMonth"
+        android:layout_marginStart="12dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/this_week"
+        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/round_textview"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/expenseCardView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toBottomOf="@id/tvThisMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="@color/black"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/expense_so_far"
+            android:layout_marginTop="18dp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
+            android:textColor="@color/white_dark" />
+
+        <TextView
+            android:id="@+id/tvTotalExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:text="\u20B9 15000"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:textSize="34sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/recentExpensesHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/expenseCardView"
+        app:layout_constraintStart_toStartOf="@id/expenseCardView"
+        android:layout_marginTop="20dp"
+        android:text="@string/recent_expense"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/recentExpensesHeading"
+        app:layout_constraintEnd_toEndOf="@id/expenseCardView"
+        android:text="@string/view_all"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recentExpenseRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/recentExpensesHeading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

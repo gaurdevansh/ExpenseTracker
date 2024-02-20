@@ -25,4 +25,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transaction_table where date >= :date")
     fun getTransactionByMonthStart(date: LocalDate): LiveData<List<Transaction>>
+
+    @Query("SELECT * FROM transaction_table ORDER BY id DESC LIMIT :no")
+    fun getRecentTransaction(no: Int): LiveData<List<Transaction>>
 }
