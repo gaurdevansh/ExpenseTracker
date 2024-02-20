@@ -12,6 +12,7 @@ import com.example.expensetracker.databinding.ActivityMainBinding
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
+import com.example.expensetracker.viewmodelFactory.HomeViewModelFactory
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     }
     val expenseViewModel: ExpenseCategoryViewModel by viewModels {
         ExpenseCategoryViewModelFactory((application as TransactionApplication).expenseCategoryRepository)
+    }
+    val homeViewModel: TransactionViewModel by viewModels {
+        HomeViewModelFactory((application as TransactionApplication).repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

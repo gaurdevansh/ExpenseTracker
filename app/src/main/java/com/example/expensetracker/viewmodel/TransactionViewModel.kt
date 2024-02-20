@@ -14,13 +14,8 @@ class TransactionViewModel(private val repository: TransactionRepository): ViewM
     val data: MutableLiveData<List<Transaction>> = MutableLiveData()
     /*val data: LiveData<List<Transaction>>
         get() = _data*/
-    lateinit var fromDate: LocalDate
-    lateinit var toDate: LocalDate
-
-    init {
-        fromDate = LocalDate.now()
-        toDate = LocalDate.now()
-    }
+    var fromDate: LocalDate = LocalDate.now()
+    var toDate: LocalDate = LocalDate.now()
 
     fun insert(transaction: Transaction) {
         viewModelScope.launch {
@@ -37,5 +32,9 @@ class TransactionViewModel(private val repository: TransactionRepository): ViewM
         repository.getTransactionByDate(startData, endDate).observeForever { newData ->
             data.postValue(newData)
         }
+    }
+
+    fun getTransactionsByMonth() {
+
     }
 }

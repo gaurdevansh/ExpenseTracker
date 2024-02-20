@@ -14,4 +14,5 @@
     <string name="date_form">Date From</string>
     <string name="date_to">Date To</string>
     <string name="go">GO</string>
+    <string name="track_your_expense">Keep a track of all your expense</string>
 </resources>

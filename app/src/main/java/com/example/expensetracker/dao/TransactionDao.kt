@@ -22,4 +22,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transaction_table where date >= :startDate AND date <= :endDate")
     fun getTransactionByDate(startDate: LocalDate, endDate: LocalDate): LiveData<List<Transaction>>
+
+    @Query("SELECT * FROM transaction_table where date >= :date")
+    fun getTransactionByMonthStart(date: LocalDate): LiveData<List<Transaction>>
 }

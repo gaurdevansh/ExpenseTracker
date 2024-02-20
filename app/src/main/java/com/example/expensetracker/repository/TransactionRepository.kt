@@ -18,4 +18,8 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
     fun getTransactionByDate(startDate: LocalDate, endDate: LocalDate): LiveData<List<Transaction>> {
         return transactionDao.getTransactionByDate(startDate, endDate)
     }
+
+    fun getTransactionByMonthStart(date: LocalDate) : LiveData<List<Transaction>> {
+        return transactionDao.getTransactionByMonthStart(date)
+    }
 }
