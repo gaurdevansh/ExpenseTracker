@@ -55,7 +55,7 @@ class AddTransactionActivity : AppCompatActivity() {
         })
         adapter.notifyDataSetChanged()
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        /*adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = adapter
 
         binding.dateSelector.selectorLayout.setOnClickListener {
@@ -68,11 +68,11 @@ class AddTransactionActivity : AppCompatActivity() {
             openPopupMenu()
         }
         binding.dateSelector.tvSelectedDate.text = LocalDate.now().toString()
-        selectedDate = LocalDate.now()
+        selectedDate = LocalDate.now()*/
     }
 
     private fun showDatePickerDialog() {
-        var calendar = Calendar.getInstance()
+       /* var calendar = Calendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
         var month = calendar.get(Calendar.MONTH)
         var day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -89,11 +89,11 @@ class AddTransactionActivity : AppCompatActivity() {
             month,
             day
         )
-        datePickerDialog.show()
+        datePickerDialog.show()*/
     }
 
     private fun checkInputs() {
-        val title = binding.etTitle.text.toString().trim()
+       /* val title = binding.etTitle.text.toString().trim()
         val category = binding.categorySpinner.selectedItem.toString()
         val amount = binding.etAmount.text.toString().trim()
         val date = selectedDate
@@ -109,11 +109,11 @@ class AddTransactionActivity : AppCompatActivity() {
             finish()
         } else {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-        }
+        }*/
     }
 
     private fun openPopupMenu() {
-        val popupMenu = PopupMenu(this, binding.menuBtn)
+        /*val popupMenu = PopupMenu(this, binding.menuBtn)
         popupMenu.inflate(R.menu.add_transaction_menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
@@ -129,7 +129,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        popupMenu.show()
+        popupMenu.show()*/
     }
 
     private fun showAddCategoryDialog() {
