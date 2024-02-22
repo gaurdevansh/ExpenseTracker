@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backBtn"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:textColor="@color/black"
         android:fontFamily="sans-serif-medium"
         android:text="@string/add_new_expense"
@@ -64,6 +64,7 @@
             android:paddingStart="20dp"
             android:inputType="number"
             android:textColor="@color/black"
+            android:drawableStart="@drawable/ic_rupees"
             android:fontFamily="sans-serif-medium"
             android:background="@drawable/edit_text_background"
             android:id="@+id/etAmount" />
@@ -136,13 +137,13 @@
             android:id="@+id/etDate" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/addBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:text="Add Expense"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
-            android:backgroundTint="@color/black"
-            android:background="@drawable/button_background"/>
+            app:cornerRadius="10dp" />
 
     </LinearLayout>
 

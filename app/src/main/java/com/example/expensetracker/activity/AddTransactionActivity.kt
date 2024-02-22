@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.expensetracker.R
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.databinding.ActivityAddTransactionBinding
+import com.example.expensetracker.fragment.CategoryBottomSheetFragment
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
@@ -54,6 +55,15 @@ class AddTransactionActivity : AppCompatActivity() {
             adapter.addAll(list)
         })
         adapter.notifyDataSetChanged()
+        binding.addBtn.setBackgroundColor(resources.getColor(R.color.black))
+        binding.backBtn.setOnClickListener { finish() }
+        binding.etCategory.setOnClickListener {
+            val categoryBottomSheet = CategoryBottomSheetFragment()
+            categoryBottomSheet.show(supportFragmentManager, categoryBottomSheet.tag)
+        }
+        binding.etDate.setOnClickListener {
+            showDatePickerDialog()
+        }
 
         /*adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = adapter
@@ -72,7 +82,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun showDatePickerDialog() {
-       /* var calendar = Calendar.getInstance()
+        var calendar = Calendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
         var month = calendar.get(Calendar.MONTH)
         var day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -83,13 +93,13 @@ class AddTransactionActivity : AppCompatActivity() {
             month: Int, day: Int ->
                 //val selectedDate = "$day/${month+1}/$year"
                 selectedDate = LocalDate.of(year, month+1, day)
-                binding.dateSelector.tvSelectedDate.text = selectedDate.toString()
+                binding.etDate.setText(selectedDate.toString())
             },
             year,
             month,
             day
         )
-        datePickerDialog.show()*/
+        datePickerDialog.show()
     }
 
     private fun checkInputs() {
