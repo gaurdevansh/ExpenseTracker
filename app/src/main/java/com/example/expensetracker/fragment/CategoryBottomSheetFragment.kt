@@ -4,12 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.expensetracker.TransactionApplication
+import com.example.expensetracker.adapter.CategoryAdapter
 import com.example.expensetracker.databinding.CategoryBottomSheetBinding
+import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
+import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: CategoryBottomSheetBinding
+    private lateinit var adapter: CategoryAdapter
+    private val categoryViewModel: ExpenseCategoryViewModel by viewModels {
+        ExpenseCategoryViewModelFactory((requireActivity().application as TransactionApplication).expenseCategoryRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +38,11 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        adapter = CategoryAdapter()
+        binding.categoryRecyclerview.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.categoryRecyclerview.adapter = adapter
+        categoryViewModel.getAllExpenseCategory().observe(this, Observer { categoryList ->
+            adapter.updateCategoryList(categoryList)
+        })
     }
 }
