@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="175dp"
+    android:layout_width="150dp"
     android:layout_height="65dp"
-    android:padding="5dp"
+    app:cardCornerRadius="10dp"
+    android:layout_marginStart="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/powder_dark">
 
@@ -17,25 +18,25 @@
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/ic_home"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/categoryIcon"
             app:layout_constraintBottom_toBottomOf="@id/categoryIcon"
             app:layout_constraintStart_toEndOf="@id/categoryIcon"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:maxLines="2"
             android:ellipsize="end"
             android:textSize="14sp"
-            android:layout_marginEnd="5dp"
-            android:text="Entertaintment" />
+            android:layout_marginEnd="5dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
