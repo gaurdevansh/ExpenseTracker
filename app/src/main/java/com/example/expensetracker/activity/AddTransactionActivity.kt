@@ -151,4 +151,14 @@ class AddTransactionActivity : AppCompatActivity(), CustomItemClickListener {
     override fun onClick(item: String) {
         binding.etCategory.setText(item.toString())
     }
+
+    /*
+    Temporary function to delete category
+     */
+    private fun deleteCategory() {
+        categoryViewModel.getAllExpenseCategory().observe(this, Observer { categoryList ->
+            categoryList.forEach { categoryViewModel.delete(it) }
+        })
+
+    }
 }

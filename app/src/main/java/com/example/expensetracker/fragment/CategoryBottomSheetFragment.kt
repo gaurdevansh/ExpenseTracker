@@ -28,6 +28,7 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment(), OnCloseListener
 
     private lateinit var binding: CategoryBottomSheetBinding
     private lateinit var adapter: CategoryAdapter
+    private var updatedList: MutableList<ExpenseCategory> = mutableListOf()
     private val categoryViewModel: ExpenseCategoryViewModel by viewModels {
         ExpenseCategoryViewModelFactory((requireActivity().application as TransactionApplication).expenseCategoryRepository)
     }
@@ -57,7 +58,12 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment(), OnCloseListener
         adapter.addCategoryListener = this
         binding.categoryRecyclerview.addItemDecoration(GridSpacingItemDecoration(2, spacing, true))
         categoryViewModel.getAllExpenseCategory().observe(this, Observer { categoryList ->
-            adapter.updateCategoryList(categoryList)
+            updatedList.clear()
+            categoryList.forEach {
+                updatedList.add(it)
+            }
+            updatedList.add(ExpenseCategory(id = 9999, title = "Add Category"))
+            adapter.updateCategoryList(updatedList)
         })
         binding.backBtn.setOnClickListener { dismiss() }
     }

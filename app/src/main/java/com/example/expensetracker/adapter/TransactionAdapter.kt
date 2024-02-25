@@ -13,7 +13,7 @@ class TransactionAdapter(): RecyclerView.Adapter<TransactionAdapter.TransactionV
     private var transactionList: List<Transaction> = ArrayList()
     inner class TransactionViewHolder(private val binding: TransactionItemViewBinding): RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.tvTitle
-        val category: TextView = itemView.findViewById<TextView>(R.id.tvCategory)
+        //val category: TextView = itemView.findViewById<TextView>(R.id.tvCategory)
         val tvAmount: TextView = itemView.findViewById<TextView>(R.id.tvAmount)
         val date: TextView = itemView.findViewById<TextView>(R.id.tvDate)
     }
@@ -31,13 +31,13 @@ class TransactionAdapter(): RecyclerView.Adapter<TransactionAdapter.TransactionV
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val trans = transactionList[position]
         holder.title.text = trans.title
-        holder.category.text = trans.category
+        //holder.category.text = trans.category
         holder.tvAmount.text = trans.amount
         holder.date.text = trans.date.toString()
     }
 
     fun submitTransactionData(transactionList: List<Transaction>) {
         this.transactionList = transactionList
-        this.notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 }
