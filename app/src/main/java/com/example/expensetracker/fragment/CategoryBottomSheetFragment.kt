@@ -1,9 +1,12 @@
 package com.example.expensetracker.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,18 +15,23 @@ import com.example.expensetracker.R
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.adapter.CategoryAdapter
 import com.example.expensetracker.databinding.CategoryBottomSheetBinding
+import com.example.expensetracker.model.ExpenseCategory
+import com.example.expensetracker.utils.AddCategoryListener
+import com.example.expensetracker.utils.CustomItemClickListener
 import com.example.expensetracker.utils.GridSpacingItemDecoration
+import com.example.expensetracker.utils.OnCloseListener
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
+class CategoryBottomSheetFragment : BottomSheetDialogFragment(), OnCloseListener, AddCategoryListener {
 
     private lateinit var binding: CategoryBottomSheetBinding
     private lateinit var adapter: CategoryAdapter
     private val categoryViewModel: ExpenseCategoryViewModel by viewModels {
         ExpenseCategoryViewModelFactory((requireActivity().application as TransactionApplication).expenseCategoryRepository)
     }
+    lateinit var listener: CustomItemClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +52,42 @@ class CategoryBottomSheetFragment : BottomSheetDialogFragment() {
         adapter = CategoryAdapter()
         binding.categoryRecyclerview.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.categoryRecyclerview.adapter = adapter
+        adapter.clickListener = listener
+        adapter.onCloseListener = this
+        adapter.addCategoryListener = this
         binding.categoryRecyclerview.addItemDecoration(GridSpacingItemDecoration(2, spacing, true))
         categoryViewModel.getAllExpenseCategory().observe(this, Observer { categoryList ->
             adapter.updateCategoryList(categoryList)
         })
         binding.backBtn.setOnClickListener { dismiss() }
+    }
+
+    override fun onClose() {
+        dismiss()
+    }
+
+    override fun onClick() {
+        openAddCategoryDialog()
+    }
+
+    private fun openAddCategoryDialog() {
+        val editText = EditText(context)
+        editText.hint = "Enter Category"
+
+        val alertDialog = AlertDialog.Builder(context)
+            .setTitle("Enter Category")
+            .setView(editText)
+            .setPositiveButton("Save") { _: DialogInterface, _: Int ->
+                val enteredCategory = editText.text.toString()
+                val expenseCategory = ExpenseCategory(title = enteredCategory)
+                categoryViewModel.insert(expenseCategory)
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.dismiss()
+            }
+            .create()
+
+        alertDialog.show()
     }
 }

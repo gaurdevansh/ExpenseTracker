@@ -21,6 +21,7 @@ import com.example.expensetracker.databinding.ActivityAddTransactionBinding
 import com.example.expensetracker.fragment.CategoryBottomSheetFragment
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
+import com.example.expensetracker.utils.CustomItemClickListener
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.ExpenseCategoryViewModelFactory
@@ -28,7 +29,7 @@ import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
 import java.time.LocalDate
 import java.util.Calendar
 
-class AddTransactionActivity : AppCompatActivity() {
+class AddTransactionActivity : AppCompatActivity(), CustomItemClickListener {
 
     private lateinit var binding: ActivityAddTransactionBinding
     private val viewModel: TransactionViewModel by viewModels {
@@ -39,6 +40,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
     private lateinit var selectedDate: LocalDate
     private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var categoryBottomSheet: CategoryBottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +60,16 @@ class AddTransactionActivity : AppCompatActivity() {
         binding.addBtn.setBackgroundColor(resources.getColor(R.color.black))
         binding.backBtn.setOnClickListener { finish() }
         binding.etCategory.setOnClickListener {
-            val categoryBottomSheet = CategoryBottomSheetFragment()
+            categoryBottomSheet = CategoryBottomSheetFragment()
+            categoryBottomSheet.listener = this
             categoryBottomSheet.show(supportFragmentManager, categoryBottomSheet.tag)
         }
         binding.etDate.setOnClickListener {
             showDatePickerDialog()
         }
+        binding.etDate.setText(LocalDate.now().toString())
+        selectedDate = LocalDate.now()
+        binding.addBtn.setOnClickListener { checkInputs() }
 
         /*adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = adapter
@@ -89,7 +95,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         var datePickerDialog = DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { view: DatePicker?, year: Int,
+            DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int,
             month: Int, day: Int ->
                 //val selectedDate = "$day/${month+1}/$year"
                 selectedDate = LocalDate.of(year, month+1, day)
@@ -103,8 +109,8 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun checkInputs() {
-       /* val title = binding.etTitle.text.toString().trim()
-        val category = binding.categorySpinner.selectedItem.toString()
+        val title = binding.etDescription.text.toString().trim()
+        val category = binding.etCategory.text.toString().trim()
         val amount = binding.etAmount.text.toString().trim()
         val date = selectedDate
         if(title.isNotEmpty() && category.isNotEmpty() || amount.isNotEmpty()
@@ -119,7 +125,7 @@ class AddTransactionActivity : AppCompatActivity() {
             finish()
         } else {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-        }*/
+        }
     }
 
     private fun openPopupMenu() {
@@ -142,25 +148,7 @@ class AddTransactionActivity : AppCompatActivity() {
         popupMenu.show()*/
     }
 
-    private fun showAddCategoryDialog() {
-        val editText = EditText(this)
-        editText.hint = "Enter Category"
-
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Enter Category")
-            .setView(editText)
-            .setPositiveButton("Save") { _: DialogInterface, _: Int ->
-                val enteredCategory = editText.text.toString()
-                val expenseCategory = ExpenseCategory(title = enteredCategory)
-                categoryViewModel.insert(expenseCategory)
-                adapter.clear()
-                adapter.notifyDataSetChanged()
-            }
-            .setNegativeButton("Cancel") {dialogInterface: DialogInterface, i: Int ->
-                dialogInterface.dismiss()
-            }
-            .create()
-
-        alertDialog.show()
+    override fun onClick(item: String) {
+        binding.etCategory.setText(item.toString())
     }
 }
