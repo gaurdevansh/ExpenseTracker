@@ -21,95 +21,89 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+
+    <LinearLayout
+        android:id="@+id/dateSelectLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="16dp"
+        android:background="@color/powder"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeading">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/powder"
-            android:layout_marginStart="5dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/date_form"
-                    android:textColor="@color/charcoal"
-                    android:layout_marginStart="2dp"
-                    android:textSize="14sp" />
-
-                <include
-                    android:id="@+id/fromDateSelector"
-                    layout="@layout/date_selector_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/date_to"
-                    android:textColor="@color/charcoal"
-                    android:layout_marginStart="2dp"
-                    android:textSize="14sp" />
-
-                <include
-                    android:id="@+id/toDateSelector"
-                    layout="@layout/date_selector_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/goBtn"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginStart="20dp"
-                android:text="@string/go"
-                app:cornerRadius="30dp"
-                android:backgroundTint="@color/black"
+                android:layout_marginStart="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/date_form"
+                android:textColor="@color/charcoal"
                 android:textSize="14sp" />
+
+            <include
+                android:id="@+id/fromDateSelector"
+                layout="@layout/date_selector_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/date_to"
+                android:textColor="@color/charcoal"
+                android:textSize="14sp" />
+
+            <include
+                android:id="@+id/toDateSelector"
+                layout="@layout/date_selector_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/goBtn"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/black"
+            android:text="@string/go"
+            android:textSize="14sp"
+            app:cornerRadius="30dp" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transactionRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/cardView"
-        app:layout_constraintTop_toBottomOf="@id/cardView"
+        app:layout_constraintStart_toStartOf="@id/dateSelectLayout"
+        app:layout_constraintTop_toBottomOf="@id/dateSelectLayout"
         tools:listitem="@layout/transaction_item_view" />
 
 

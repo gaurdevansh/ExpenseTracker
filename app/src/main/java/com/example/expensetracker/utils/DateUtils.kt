@@ -11,6 +11,6 @@ object DateUtils {
     }
 
     fun getDateInFormat2(date: LocalDate): String {
-        return date.format(DateTimeFormatter.ofPattern("d MMM YY", Locale.ENGLISH))
+        return date.format(DateTimeFormatter.ofPattern("d MMM, YY", Locale.ENGLISH))
     }
 }
