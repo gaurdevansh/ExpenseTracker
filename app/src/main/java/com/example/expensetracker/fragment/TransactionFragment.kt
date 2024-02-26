@@ -17,6 +17,7 @@ import com.example.expensetracker.adapter.TransactionAdapter
 import com.example.expensetracker.TransactionApplication
 import com.example.expensetracker.activity.MainActivity
 import com.example.expensetracker.databinding.FragmentTransactionBinding
+import com.example.expensetracker.utils.DateUtils
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.example.expensetracker.viewmodelFactory.TransactionViewModelFactory
 import java.time.LocalDate
@@ -49,6 +50,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.goBtn.setBackgroundColor(resources.getColor(R.color.black))
         viewModel = (activity as MainActivity).viewModel
         binding.transactionRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         adapter = TransactionAdapter()
@@ -61,8 +63,8 @@ class TransactionFragment : Fragment(), View.OnClickListener {
         binding.fromDateSelector.selectorLayout.setOnClickListener(this)
         binding.toDateSelector.selectorLayout.setOnClickListener(this)
         binding.goBtn.setOnClickListener(this)
-        binding.fromDateSelector.tvSelectedDate.text = viewModel.fromDate.toString()
-        binding.toDateSelector.tvSelectedDate.text = viewModel.toDate.toString()
+        binding.fromDateSelector.tvSelectedDate.text = DateUtils.getDateInFormat2(viewModel.fromDate)
+        binding.toDateSelector.tvSelectedDate.text = DateUtils.getDateInFormat2(viewModel.toDate)
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
             adapter.submitTransactionData(it)
@@ -102,10 +104,10 @@ class TransactionFragment : Fragment(), View.OnClickListener {
                                                  month: Int, day: Int ->
                 if(type == "from") {
                     viewModel.fromDate = LocalDate.of(year, month + 1, day)
-                    binding.fromDateSelector.tvSelectedDate.text = viewModel.fromDate.toString()
+                    binding.fromDateSelector.tvSelectedDate.text = DateUtils.getDateInFormat2(viewModel.fromDate)
                 } else {
                     viewModel.toDate = LocalDate.of(year, month + 1, day)
-                    binding.toDateSelector.tvSelectedDate.text = viewModel.toDate.toString()
+                    binding.toDateSelector.tvSelectedDate.text = DateUtils.getDateInFormat2(viewModel.toDate)
                 }
             },
             year,

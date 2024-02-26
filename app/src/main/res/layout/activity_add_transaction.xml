@@ -142,7 +142,7 @@
             android:id="@+id/addBtn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Add Expense"
+            android:text="@string/add_expense"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
             app:cornerRadius="10dp" />

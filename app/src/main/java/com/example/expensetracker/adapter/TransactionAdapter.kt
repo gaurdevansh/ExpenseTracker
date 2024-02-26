@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.TransactionItemViewBinding
 import com.example.expensetracker.model.Transaction
+import com.example.expensetracker.utils.DateUtils
 
 class TransactionAdapter(): RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
@@ -32,8 +33,8 @@ class TransactionAdapter(): RecyclerView.Adapter<TransactionAdapter.TransactionV
         val trans = transactionList[position]
         holder.title.text = trans.title
         //holder.category.text = trans.category
-        holder.tvAmount.text = trans.amount
-        holder.date.text = trans.date.toString()
+        holder.tvAmount.text = "\u20B9" + trans.amount
+        holder.date.text = "Paid on " + DateUtils.getDateInFormat(trans.date)
     }
 
     fun submitTransactionData(transactionList: List<Transaction>) {

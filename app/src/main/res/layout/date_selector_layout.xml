@@ -8,7 +8,8 @@
         android:id="@+id/dateIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_date"
+        android:src="@drawable/ic_calender"
+        android:layout_gravity="center_vertical"
         />
 
     <TextView
@@ -16,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="15/02/2024"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_marginStart="8dp"
         android:textColor="@color/black"/>
 

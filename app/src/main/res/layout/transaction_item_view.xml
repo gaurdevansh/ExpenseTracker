@@ -14,19 +14,20 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/imageCardView"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="20dp"
             android:layout_marginStart="10dp">
 
             <ImageView
                 android:id="@+id/imageIcon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/sample_image"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop" />
 
         </androidx.cardview.widget.CardView>
@@ -63,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="20dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Rs 120"
+            android:text="\u20B9 120"
             android:textSize="20sp"
             android:textColor="@color/black" />
 

@@ -29,4 +29,10 @@
     <string name="select_category">Select Category</string>
     <string name="select_date">Select Date</string>
     <string name="select_category_subheading">Select a category that best describes what you spend your money on</string>
+    <string name="rupees_symbol">\u20B9</string>
+    <string name="home">Home</string>
+    <string name="insights">Insights</string>
+    <string name="expenses">Expenses</string>
+    <string name="expense_history">Expense History</string>
+    <string name="add_expense">Add Expense</string>
 </resources>
