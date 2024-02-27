@@ -59,15 +59,15 @@ class GraphFragment : Fragment() {
                     val totalAmount = transactions.sumOf { it.amount.toInt() }
                     amountByCategory[category] = totalAmount
                 }
-                setUpPieChart()
+                //setUpPieChart()
             }
         }
     }
 
     private fun setUpPieChart() {
-        pieChart = binding.pieChart
+        //pieChart = binding.pieChart
 
-        pieChart.setUsePercentValues(true)
+       /* pieChart.setUsePercentValues(true)
         pieChart.description.isEnabled = false
         pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
         pieChart.dragDecelerationFrictionCoef = 0.95f
@@ -87,11 +87,11 @@ class GraphFragment : Fragment() {
         for(x in amountByCategory) {
             entries.add(PieEntry(x.value.toFloat(), x.key))
         }
-       /* entries.add(PieEntry(18f, "Label 1"))
+       *//* entries.add(PieEntry(18f, "Label 1"))
         entries.add(PieEntry(20f, "Label 2"))
         entries.add(PieEntry(22f, "Label 3"))
         entries.add(PieEntry(24f, "Label 4"))
-        entries.add(PieEntry(16f, "Label 5"))*/
+        entries.add(PieEntry(16f, "Label 5"))*//*
 
         val dataSet = PieDataSet(entries, "Data")
         dataSet.colors = ColorTemplate.JOYFUL_COLORS.toList()
@@ -103,7 +103,7 @@ class GraphFragment : Fragment() {
         data.setValueTextColor(Color.WHITE)
 
         pieChart.data = data
-        pieChart.invalidate()
+        pieChart.invalidate()*/
     }
 
 }
