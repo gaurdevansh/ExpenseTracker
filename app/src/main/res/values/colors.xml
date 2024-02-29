@@ -19,4 +19,7 @@
     <color name="snow">#F5FEFD</color>
     <color name="powder">#FBFCFA</color>
     <color name="powder_dark">#EEF7F3</color>
+    <color name="dark_green">#023020</color>
+    <color name="dark_yellow">#D5B60A</color>
+    <color name="dark_brown">#5C4033</color>
 </resources>
