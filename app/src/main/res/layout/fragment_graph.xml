@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
+    android:background="@color/powder"
     tools:context=".fragment.GraphFragment">
 
     <TextView
@@ -13,24 +14,65 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:textColor="@color/black"
         android:fontFamily="sans-serif-medium"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:text="@string/insights" />
 
-    <com.example.expensetracker.graph.PieChartView
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvHeading"
+        app:layout_constraintStart_toStartOf="@id/tvHeading"
+        android:layout_marginTop="16dp"
+        android:text="@string/this_month"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:cornerRadius="20dp"
+        android:paddingHorizontal="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/btnThisMonth"
+        app:layout_constraintStart_toEndOf="@id/btnThisMonth"
+        android:layout_marginStart="16dp"
+        android:text="@string/this_week"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        app:cornerRadius="20dp"
+        android:paddingHorizontal="15dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnThisMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/white"
+        app:cardBackgroundColor="@color/powder"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/insightsRecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!--<com.example.expensetracker.graph.PieChartView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/tvHeading"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />-->
 
-    <!--<com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

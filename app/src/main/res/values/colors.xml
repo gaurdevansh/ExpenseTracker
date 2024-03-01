@@ -22,4 +22,6 @@
     <color name="dark_green">#023020</color>
     <color name="dark_yellow">#D5B60A</color>
     <color name="dark_brown">#5C4033</color>
+    <color name="light_gray">#D3D3D3</color>
+    <color name="orange">#FFA500</color>
 </resources>

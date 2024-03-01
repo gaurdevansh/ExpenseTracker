@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.R
 import com.example.expensetracker.activity.MainActivity
+import com.example.expensetracker.adapter.InsightsAdapter
 import com.example.expensetracker.databinding.FragmentGraphBinding
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.button.MaterialButton
 
 class GraphFragment : Fragment() {
 
@@ -27,8 +30,11 @@ class GraphFragment : Fragment() {
     private lateinit var transactionViewModel: TransactionViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
     private lateinit var transactions: List<Transaction>
-    private lateinit var categories: List<ExpenseCategory>
+    private var categories: List<ExpenseCategory> = mutableListOf()
     private var amountByCategory = mutableMapOf<String, Int>()
+    private var grandTotal: Int = 0
+    private var selectedBtn = 0
+    private lateinit var insightsAdapter: InsightsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +53,15 @@ class GraphFragment : Fragment() {
         transactionViewModel = (activity as MainActivity).viewModel
         categoryViewModel = (activity as MainActivity).expenseViewModel
         getCategoryWiseExpense()
+        monitorDateButtons()
+        binding.btnThisMonth.setOnClickListener {
+            selectedBtn = 0
+            monitorDateButtons()
+        }
+        binding.btnThisYear.setOnClickListener {
+            selectedBtn = 1
+            monitorDateButtons()
+        }
     }
 
     private fun getCategoryWiseExpense() {
@@ -58,9 +73,32 @@ class GraphFragment : Fragment() {
                 groupedTransactions.forEach { (category, transactions) ->
                     val totalAmount = transactions.sumOf { it.amount.toInt() }
                     amountByCategory[category] = totalAmount
+                    grandTotal += totalAmount
                 }
                 //setUpPieChart()
+                setUpRecyclerview()
             }
+        }
+    }
+
+    private fun setUpRecyclerview() {
+        insightsAdapter = InsightsAdapter()
+        binding.insightsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.insightsRecyclerview.adapter = insightsAdapter
+        insightsAdapter.updateData(amountByCategory, grandTotal, categories)
+    }
+
+    private fun monitorDateButtons() {
+        if (selectedBtn == 0) {
+            binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.black))
+            binding.btnThisMonth.setTextColor(resources.getColor(R.color.white))
+            binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
+            binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
+        } else {
+            binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
+            binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
+            binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.black))
+            binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
         }
     }
 
