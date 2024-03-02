@@ -1,7 +1,9 @@
 package com.example.expensetracker.adapter
 
+import android.app.ActionBar.LayoutParams
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.R

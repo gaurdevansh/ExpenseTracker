@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     tools:context=".fragment.HomeFragment">
 
@@ -11,97 +11,111 @@
         android:id="@+id/profileCardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
         app:cardCornerRadius="50dp"
-        android:layout_marginTop="24dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/profileImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/sample_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_image" />
 
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/greetingTv"
+        android:id="@+id/tvGreetings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/profileCardView"
-        app:layout_constraintStart_toEndOf="@id/profileCardView"
-        android:text="Hello, Devansh"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/black"
-        android:layout_marginStart="12dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/greetingTv"
-        app:layout_constraintTop_toBottomOf="@id/greetingTv"
-        android:text="@string/track_your_expense"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/gray" />
-
-    <TextView
-        android:id="@+id/tvThisMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/profileCardView"
-        app:layout_constraintStart_toStartOf="@id/profileCardView"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="10dp"
-        android:paddingBottom="5dp"
-        android:text="@string/this_month"
-        android:fontFamily="sans-serif-medium"
-        android:background="@drawable/round_textview"/>
-
-    <TextView
-        android:id="@+id/tvThisWeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvThisMonth"
-        app:layout_constraintStart_toEndOf="@id/tvThisMonth"
         android:layout_marginStart="12dp"
-        android:paddingHorizontal="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Hello, Devansh"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/profileCardView"
+        app:layout_constraintTop_toTopOf="@id/profileCardView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/track_your_expense"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tvGreetings"
+        app:layout_constraintTop_toBottomOf="@id/tvGreetings" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
+        android:text="@string/this_month"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="@id/profileCardView"
+        app:layout_constraintTop_toBottomOf="@id/profileCardView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
         android:paddingBottom="5dp"
         android:text="@string/this_week"
-        android:fontFamily="sans-serif-medium"
-        android:background="@drawable/round_textview"/>
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toEndOf="@id/btnThisMonth"
+        app:layout_constraintTop_toTopOf="@id/btnThisMonth" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/expenseCardView"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        app:layout_constraintTop_toBottomOf="@id/tvThisMonth"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="@color/black"
         android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp">
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnThisMonth">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/expense_so_far"
             android:layout_marginTop="18dp"
             android:fontFamily="sans-serif-medium"
-            android:textSize="14sp"
-            android:textColor="@color/white_dark" />
+            android:text="@string/expense_so_far"
+            android:textColor="@color/white_dark"
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvTotalExpense"
+            android:id="@+id/tvTotalMonthExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center"
-            android:text="\u20B9 15000"
-            android:fontFamily="sans-serif-medium"
             android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="\u20B9 15000"
+            android:textColor="@color/white"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/tvTotalWeekExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="\u20B9 15000"
             android:textColor="@color/white"
             android:textSize="34sp" />
 
@@ -111,33 +125,33 @@
         android:id="@+id/recentExpensesHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/expenseCardView"
-        app:layout_constraintStart_toStartOf="@id/expenseCardView"
         android:layout_marginTop="20dp"
-        android:text="@string/recent_expense"
-        android:textSize="16sp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/black" />
+        android:text="@string/recent_expense"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/expenseCardView"
+        app:layout_constraintTop_toBottomOf="@id/expenseCardView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/recentExpensesHeading"
-        app:layout_constraintEnd_toEndOf="@id/expenseCardView"
-        android:text="@string/view_all"
-        android:textSize="16sp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/black" />
+        android:text="@string/view_all"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/expenseCardView"
+        app:layout_constraintTop_toTopOf="@id/recentExpensesHeading" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recentExpenseRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/recentExpensesHeading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recentExpensesHeading" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

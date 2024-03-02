@@ -7,17 +7,23 @@ import androidx.lifecycle.viewModelScope
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.repository.TransactionRepository
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 
 class HomeViewModel(private val repository: TransactionRepository): ViewModel() {
 
     private var currentMonthStart: LocalDate = YearMonth.from(LocalDate.now()).atDay(1)
+    private var currentWeekStart: LocalDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
     var monthTotalExpense: MutableLiveData<Int> = MutableLiveData()
     var recentTransactions: MutableLiveData<List<Transaction>> = MutableLiveData()
+    var weekTotalExpense: MutableLiveData<Int> = MutableLiveData()
 
     init {
         getTransactionForCurrentMonth()
+        getTransactionForCurrentWeek()
         getRecentTransactions()
     }
 
@@ -26,6 +32,15 @@ class HomeViewModel(private val repository: TransactionRepository): ViewModel() 
             repository.getTransactionByMonthStart(currentMonthStart)
                 .observeForever { transactionList ->
                     monthTotalExpense.postValue(transactionList.sumOf { it.amount.toInt() })
+                }
+        }
+    }
+
+    private fun getTransactionForCurrentWeek() {
+        viewModelScope.launch {
+            repository.getTransactionByMonthStart(currentWeekStart)
+                .observeForever { transactionList ->
+                    weekTotalExpense.postValue(transactionList.sumOf { it.amount.toInt() })
                 }
         }
     }

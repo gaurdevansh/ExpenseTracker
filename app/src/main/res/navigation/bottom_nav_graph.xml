@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/graphFragment"
-        android:name="com.example.expensetracker.fragment.GraphFragment"
+        android:name="com.example.expensetracker.fragment.InsightsFragment"
         android:label="fragment_graph"
         tools:layout="@layout/fragment_graph" />
     <fragment

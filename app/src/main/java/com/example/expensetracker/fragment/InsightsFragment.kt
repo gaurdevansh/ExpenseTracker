@@ -1,12 +1,10 @@
 package com.example.expensetracker.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.R
 import com.example.expensetracker.activity.MainActivity
@@ -17,15 +15,9 @@ import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.button.MaterialButton
 
-class GraphFragment : Fragment() {
+class InsightsFragment : Fragment() {
 
-    private lateinit var pieChart: PieChart
     private lateinit var binding: FragmentGraphBinding
     private lateinit var transactionViewModel: TransactionViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
@@ -75,7 +67,6 @@ class GraphFragment : Fragment() {
                     amountByCategory[category] = totalAmount
                     grandTotal += totalAmount
                 }
-                //setUpPieChart()
                 setUpRecyclerview()
             }
         }
@@ -100,48 +91,6 @@ class GraphFragment : Fragment() {
             binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.black))
             binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
         }
-    }
-
-    private fun setUpPieChart() {
-        //pieChart = binding.pieChart
-
-       /* pieChart.setUsePercentValues(true)
-        pieChart.description.isEnabled = false
-        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-        pieChart.dragDecelerationFrictionCoef = 0.95f
-        pieChart.isDrawHoleEnabled = true
-        pieChart.setHoleColor(Color.WHITE)
-        pieChart.setTransparentCircleColor(Color.WHITE)
-        pieChart.setTransparentCircleAlpha(110)
-        pieChart.holeRadius = 58f
-        pieChart.transparentCircleRadius = 61f
-        pieChart.setDrawCenterText(true)
-        pieChart.rotationAngle = 0f
-        pieChart.isRotationEnabled = true
-        pieChart.isHighlightPerTapEnabled = true
-
-        // Set data
-        val entries = arrayListOf<PieEntry>()
-        for(x in amountByCategory) {
-            entries.add(PieEntry(x.value.toFloat(), x.key))
-        }
-       *//* entries.add(PieEntry(18f, "Label 1"))
-        entries.add(PieEntry(20f, "Label 2"))
-        entries.add(PieEntry(22f, "Label 3"))
-        entries.add(PieEntry(24f, "Label 4"))
-        entries.add(PieEntry(16f, "Label 5"))*//*
-
-        val dataSet = PieDataSet(entries, "Data")
-        dataSet.colors = ColorTemplate.JOYFUL_COLORS.toList()
-        dataSet.sliceSpace = 3f
-        dataSet.selectionShift = 5f
-
-        val data = PieData(dataSet)
-        data.setValueTextSize(10f)
-        data.setValueTextColor(Color.WHITE)
-
-        pieChart.data = data
-        pieChart.invalidate()*/
     }
 
 }

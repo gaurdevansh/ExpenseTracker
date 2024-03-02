@@ -18,7 +18,7 @@ class InsightsAdapter(): RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder
         val title = binding.tvTitle
         val percent = binding.tvPercent
         val amount = binding.tvAmount
-        val seekbar = binding.seekbar
+        val progressBar = binding.progressbar
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InsightsViewHolder {
@@ -38,7 +38,7 @@ class InsightsAdapter(): RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder
             holder.title.text = index.title
             holder.amount.text = "\u20B9" + item.toString()
             holder.percent.text = ((item*100) / grandTotal).toString() + "%"
-            holder.seekbar.setProgress(item/grandTotal)
+            holder.progressBar.progressAmount = ((item.toFloat() / grandTotal.toFloat()) * 100).toInt()
         }
 
     }

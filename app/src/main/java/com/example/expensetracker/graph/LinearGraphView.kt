@@ -22,7 +22,7 @@ class LinearGraphView(context: Context, attrs: AttributeSet): View(context, attr
         strokeWidth = 40f
         color = resources.getColor(R.color.dark_yellow)
     }
-    var progress: Int = 0
+    var progressAmount: Int = 55
 
     init {
         getContext().theme.obtainStyledAttributes(
@@ -51,7 +51,11 @@ class LinearGraphView(context: Context, attrs: AttributeSet): View(context, attr
 
         canvas.drawLine(0f, 0f, width, 0f, backgroundPaint)
 
-        var newWidth = width * (progress / 100f)
+        var newWidth = width * (progressAmount / 100f)
         canvas.drawLine(0f, -5f, newWidth, -5f, progressPaint)
+    }
+
+    fun setProgressColor(color: Int) {
+        progressPaint.color = color
     }
 }
