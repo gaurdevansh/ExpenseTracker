@@ -22,16 +22,30 @@
         android:text="@string/insights" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnThisMonth"
+        android:id="@+id/btnThisWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvHeading"
         app:layout_constraintStart_toStartOf="@id/tvHeading"
         android:layout_marginTop="16dp"
-        android:text="@string/this_month"
+        android:text="@string/this_week"
         android:fontFamily="sans-serif-medium"
         android:textAllCaps="false"
         android:textSize="12sp"
+        app:cornerRadius="20dp"
+        android:paddingHorizontal="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintTop_toTopOf="@id/btnThisWeek"
+        app:layout_constraintStart_toEndOf="@id/btnThisWeek"
+        android:layout_marginStart="16dp"
+        android:text="@string/this_month"
+        android:textSize="12sp"
+        android:textAllCaps="false"
         app:cornerRadius="20dp"
         android:paddingHorizontal="15dp" />
 
@@ -43,7 +57,7 @@
         app:layout_constraintTop_toTopOf="@id/btnThisMonth"
         app:layout_constraintStart_toEndOf="@id/btnThisMonth"
         android:layout_marginStart="16dp"
-        android:text="@string/this_week"
+        android:text="@string/this_year"
         android:textSize="12sp"
         android:textAllCaps="false"
         app:cornerRadius="20dp"

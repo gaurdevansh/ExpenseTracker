@@ -9,24 +9,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.R
 import com.example.expensetracker.activity.MainActivity
 import com.example.expensetracker.adapter.InsightsAdapter
-import com.example.expensetracker.databinding.FragmentGraphBinding
+import com.example.expensetracker.databinding.FragmentInsightsBinding
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
+import com.example.expensetracker.utils.TimeFrame
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
-import com.github.mikephil.charting.charts.PieChart
 
 class InsightsFragment : Fragment() {
 
-    private lateinit var binding: FragmentGraphBinding
+    private lateinit var binding: FragmentInsightsBinding
     private lateinit var transactionViewModel: TransactionViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
     private lateinit var transactions: List<Transaction>
     private var categories: List<ExpenseCategory> = mutableListOf()
     private var amountByCategory = mutableMapOf<String, Int>()
     private var grandTotal: Int = 0
-    private var selectedBtn = 0
     private lateinit var insightsAdapter: InsightsAdapter
+    private var selectedTimeFrame: TimeFrame = TimeFrame.WEEK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class InsightsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentGraphBinding.inflate(inflater, container, false)
+        binding = FragmentInsightsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,16 +44,11 @@ class InsightsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         transactionViewModel = (activity as MainActivity).viewModel
         categoryViewModel = (activity as MainActivity).expenseViewModel
+        selectedTimeFrame = TimeFrame.WEEK
         getCategoryWiseExpense()
-        monitorDateButtons()
-        binding.btnThisMonth.setOnClickListener {
-            selectedBtn = 0
-            monitorDateButtons()
-        }
-        binding.btnThisYear.setOnClickListener {
-            selectedBtn = 1
-            monitorDateButtons()
-        }
+        monitorTimeFrame()
+        setupTimeFrameControls()
+
     }
 
     private fun getCategoryWiseExpense() {
@@ -79,17 +74,47 @@ class InsightsFragment : Fragment() {
         insightsAdapter.updateData(amountByCategory, grandTotal, categories)
     }
 
-    private fun monitorDateButtons() {
-        if (selectedBtn == 0) {
-            binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.black))
-            binding.btnThisMonth.setTextColor(resources.getColor(R.color.white))
-            binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
-            binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
-        } else {
-            binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
-            binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
-            binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.black))
-            binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
+    private fun setupTimeFrameControls() {
+        binding.btnThisWeek.setOnClickListener {
+            selectedTimeFrame = TimeFrame.WEEK
+            monitorTimeFrame()
+        }
+        binding.btnThisMonth.setOnClickListener {
+            selectedTimeFrame = TimeFrame.MONTH
+            monitorTimeFrame()
+        }
+        binding.btnThisYear.setOnClickListener {
+            selectedTimeFrame = TimeFrame.YEAR
+            monitorTimeFrame()
+        }
+    }
+
+    private fun monitorTimeFrame() {
+        when (selectedTimeFrame) {
+            TimeFrame.WEEK -> {
+                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnThisWeek.setTextColor(resources.getColor(R.color.white))
+                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
+                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
+            }
+            TimeFrame.MONTH -> {
+                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisWeek.setTextColor(resources.getColor(R.color.black))
+                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnThisMonth.setTextColor(resources.getColor(R.color.white))
+                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
+            }
+            TimeFrame.YEAR -> {
+                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisWeek.setTextColor(resources.getColor(R.color.black))
+                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
+                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
+            }
         }
     }
 

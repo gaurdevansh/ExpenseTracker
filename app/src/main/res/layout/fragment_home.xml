@@ -48,13 +48,13 @@
         app:layout_constraintTop_toBottomOf="@id/tvGreetings" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnThisMonth"
+        android:id="@+id/btnThisWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
         android:paddingHorizontal="15dp"
-        android:text="@string/this_month"
+        android:text="@string/this_week"
         android:textAllCaps="false"
         android:textSize="12sp"
         app:cornerRadius="20dp"
@@ -62,14 +62,29 @@
         app:layout_constraintTop_toBottomOf="@id/profileCardView" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnThisWeek"
+        android:id="@+id/btnThisMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="sans-serif-medium"
         android:paddingHorizontal="15dp"
         android:paddingBottom="5dp"
-        android:text="@string/this_week"
+        android:text="@string/this_month"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toEndOf="@id/btnThisWeek"
+        app:layout_constraintTop_toTopOf="@id/btnThisWeek" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnThisYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
+        android:paddingBottom="5dp"
+        android:text="@string/this_year"
         android:textAllCaps="false"
         android:textSize="12sp"
         app:cornerRadius="20dp"
@@ -110,6 +125,17 @@
 
         <TextView
             android:id="@+id/tvTotalWeekExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="\u20B9 15000"
+            android:textColor="@color/white"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/tvTotalYearExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center"
