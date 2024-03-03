@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.databinding.InsightsItemBinding
 import com.example.expensetracker.model.ExpenseCategory
+import kotlin.math.round
 
 class InsightsAdapter() : RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder>() {
 
@@ -36,7 +37,8 @@ class InsightsAdapter() : RecyclerView.Adapter<InsightsAdapter.InsightsViewHolde
         val (title, amount) = amountByCategory.entries.elementAt(position)
         holder.title.text = title
         holder.amount.text = "\u20B9" + amount.toString()
-        holder.percent.text = ((amount * 100) / grandTotal).toString() + "%"
+        holder.percent.text =
+            (round((amount.toFloat() * 100) / grandTotal.toFloat())).toString() + "%"
         holder.progressBar.progressAmount =
             ((amount.toFloat() / grandTotal.toFloat()) * 100).toInt()
 

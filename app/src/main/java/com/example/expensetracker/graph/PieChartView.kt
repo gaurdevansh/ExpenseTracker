@@ -10,7 +10,10 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class PieChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class PieChartView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
+
+    private var amountByCategory = mutableMapOf<String, Int>()
+    private var totalAmount = 100
 
     private val paint = Paint().apply {
         isAntiAlias = true
@@ -18,9 +21,13 @@ class PieChartView(context: Context, attrs: AttributeSet) : View(context, attrs)
         strokeWidth = 80f
     }
 
-    //private val colors = arrayOf(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.CYAN)
-    private val colors = arrayOf(resources.getColor(R.color.dark_green), resources.getColor(R.color.dark_yellow), resources.getColor(R.color.dark_brown))
-    private val data = floatArrayOf(20f, 30f, 50f)
+    private val colors = arrayOf(
+        resources.getColor(R.color.dark_green),
+        resources.getColor(R.color.dark_yellow),
+        resources.getColor(R.color.dark_brown),
+        resources.getColor(R.color.blue),
+        resources.getColor(R.color.orange)
+    )
 
     @SuppressLint("CanvasSize")
     override fun onDraw(canvas: Canvas?) {
@@ -33,23 +40,21 @@ class PieChartView(context: Context, attrs: AttributeSet) : View(context, attrs)
         val radius = min(width, height) / 2 - paint.strokeWidth / 2
         val centerX = width / 2
         val centerY = height / 2
-        val total = data.sum()
 
         var startAngle = -70f
-        var gapAngle = 12f
+        var gapAngle = 18f
 
         val semiCircleRadius = paint.strokeWidth * 0.1f - 7.5f
+        var index = 0
 
-
-        for ((index, value) in data.withIndex()) {
-            val sweepAngle = 360f * (value / total)
+        for ((_, value) in amountByCategory) {
+            val sweepAngle = 360f * (value.toFloat() / totalAmount.toFloat())
             paint.color = colors[index % colors.size]
-
 
             //Main Arc
             canvas.drawArc(
                 centerX - radius, centerY - radius, centerX + radius, centerY + radius,
-                startAngle + gapAngle , sweepAngle - gapAngle, false, paint
+                startAngle + gapAngle, sweepAngle - gapAngle, false, paint
             )
 
             val startAngleRadians = Math.toRadians(startAngle.toDouble() + gapAngle.toDouble())
@@ -57,16 +62,41 @@ class PieChartView(context: Context, attrs: AttributeSet) : View(context, attrs)
             val startY = centerY + radius * sin(startAngleRadians).toFloat()
 
             //Semicircle at start
-            canvas.drawArc(startX - semiCircleRadius, startY - semiCircleRadius, startX + semiCircleRadius, startY + semiCircleRadius,
-                startAngle + gapAngle , -180f, false, paint)
+            canvas.drawArc(
+                startX - semiCircleRadius,
+                startY - semiCircleRadius,
+                startX + semiCircleRadius,
+                startY + semiCircleRadius,
+                startAngle + gapAngle,
+                -180f,
+                false,
+                paint
+            )
 
-            val endX = centerX + radius * cos(Math.toRadians(startAngle + sweepAngle.toDouble())).toFloat()
-            val endY = centerY + radius * sin(Math.toRadians(startAngle + sweepAngle.toDouble())).toFloat()
+            val endX =
+                centerX + radius * cos(Math.toRadians(startAngle + sweepAngle.toDouble())).toFloat()
+            val endY =
+                centerY + radius * sin(Math.toRadians(startAngle + sweepAngle.toDouble())).toFloat()
             //Semicircle at end
-            canvas.drawArc(endX - semiCircleRadius, endY - semiCircleRadius, endX + semiCircleRadius, endY + semiCircleRadius,
-            startAngle + sweepAngle, 180f, false, paint)
+            canvas.drawArc(
+                endX - semiCircleRadius,
+                endY - semiCircleRadius,
+                endX + semiCircleRadius,
+                endY + semiCircleRadius,
+                startAngle + sweepAngle,
+                180f,
+                false,
+                paint
+            )
 
             startAngle += sweepAngle
+            index++
         }
+    }
+
+    fun updateValues(amountByCategory: MutableMap<String, Int>, totalAmount: Int) {
+        this.amountByCategory = amountByCategory
+        this.totalAmount = totalAmount
+        invalidate()
     }
 }

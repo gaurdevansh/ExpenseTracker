@@ -1,6 +1,7 @@
 package com.example.expensetracker.fragment
 
 import android.os.Bundle
+import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.example.expensetracker.R
 import com.example.expensetracker.activity.MainActivity
 import com.example.expensetracker.adapter.InsightsAdapter
 import com.example.expensetracker.databinding.FragmentInsightsBinding
+import com.example.expensetracker.graph.PieChartView
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.utils.TimeFrame
@@ -23,7 +25,6 @@ class InsightsFragment : Fragment() {
     private lateinit var transactionViewModel: TransactionViewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
-    private lateinit var transactions: List<Transaction>
     private var categories: List<ExpenseCategory> = mutableListOf()
     private var weekAmountByCategory = mutableMapOf<String, Int>()
     private var monthAmountByCategory = mutableMapOf<String, Int>()
@@ -52,14 +53,16 @@ class InsightsFragment : Fragment() {
         categoryViewModel = (activity as MainActivity).expenseViewModel
         homeViewModel = (activity as MainActivity).homeViewModel
         selectedTimeFrame = TimeFrame.WEEK
-        getWeeklyCategoryWiseExpense()
         monitorTimeFrame()
+        getWeeklyCategoryWiseExpense()
+        getMonthlyCategoryWiseExpense()
+        getYearlyCategoryWiseExpense()
         setupTimeFrameControls()
     }
 
     private fun getMonthlyCategoryWiseExpense() {
         homeViewModel.monthTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            transactions = transactionList
+            val transactions = transactionList
             categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
                 categories = categoryList
                 val groupedTransactions = transactions.groupBy { it.category }
@@ -72,6 +75,7 @@ class InsightsFragment : Fragment() {
                 }
                 if (selectedTimeFrame == TimeFrame.MONTH) {
                     setUpRecyclerview()
+                    showPieChartView(monthAmountByCategory, monthGrandTotal)
                 }
             }
         }
@@ -79,7 +83,7 @@ class InsightsFragment : Fragment() {
 
     private fun getYearlyCategoryWiseExpense() {
         homeViewModel.yearTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            transactions = transactionList
+            val transactions = transactionList
             categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
                 categories = categoryList
                 val groupedTransactions = transactions.groupBy { it.category }
@@ -92,6 +96,7 @@ class InsightsFragment : Fragment() {
                 }
                 if (selectedTimeFrame == TimeFrame.YEAR) {
                     setUpRecyclerview()
+                    showPieChartView(yearAmountByCategory, yearGrandTotal)
                 }
             }
         }
@@ -99,7 +104,7 @@ class InsightsFragment : Fragment() {
 
     private fun getWeeklyCategoryWiseExpense() {
         homeViewModel.weekTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            transactions = transactionList
+            val transactions = transactionList
             categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
                 categories = categoryList
                 val groupedTransactions = transactions.groupBy { it.category }
@@ -112,6 +117,7 @@ class InsightsFragment : Fragment() {
                 }
                 if (selectedTimeFrame == TimeFrame.WEEK) {
                     setUpRecyclerview()
+                    showPieChartView(weekAmountByCategory, weekGrandTotal)
                 }
             }
         }
@@ -121,29 +127,48 @@ class InsightsFragment : Fragment() {
         insightsAdapter = InsightsAdapter()
         binding.insightsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.insightsRecyclerview.adapter = insightsAdapter
-        when (selectedTimeFrame) {
-            TimeFrame.WEEK -> insightsAdapter.updateData(weekAmountByCategory, weekGrandTotal, categories)
-            TimeFrame.MONTH -> insightsAdapter.updateData(monthAmountByCategory, monthGrandTotal, categories)
-            TimeFrame.YEAR -> insightsAdapter.updateData(yearAmountByCategory, yearGrandTotal, categories)
-        }
+        updateTimeFrameData()
+    }
 
+    private fun updateTimeFrameData() {
+        when (selectedTimeFrame) {
+            TimeFrame.WEEK -> insightsAdapter.updateData(
+                weekAmountByCategory,
+                weekGrandTotal,
+                categories
+            )
+            TimeFrame.MONTH -> insightsAdapter.updateData(
+                monthAmountByCategory,
+                monthGrandTotal,
+                categories
+            )
+            TimeFrame.YEAR -> insightsAdapter.updateData(
+                yearAmountByCategory,
+                yearGrandTotal,
+                categories
+            )
+        }
     }
 
     private fun setupTimeFrameControls() {
         binding.btnThisWeek.setOnClickListener {
             selectedTimeFrame = TimeFrame.WEEK
             monitorTimeFrame()
-            getWeeklyCategoryWiseExpense()
+            updateTimeFrameData()
+            showPieChartView(weekAmountByCategory, weekGrandTotal)
         }
         binding.btnThisMonth.setOnClickListener {
             selectedTimeFrame = TimeFrame.MONTH
             monitorTimeFrame()
-            getMonthlyCategoryWiseExpense()
+            updateTimeFrameData()
+            showPieChartView(monthAmountByCategory, monthGrandTotal)
+
         }
         binding.btnThisYear.setOnClickListener {
             selectedTimeFrame = TimeFrame.YEAR
             monitorTimeFrame()
-            getYearlyCategoryWiseExpense()
+            updateTimeFrameData()
+            showPieChartView(yearAmountByCategory, yearGrandTotal)
         }
     }
 
@@ -174,6 +199,11 @@ class InsightsFragment : Fragment() {
                 binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
             }
         }
+    }
+
+    private fun showPieChartView(amountByCategory: MutableMap<String, Int>, totalAmount: Int) {
+        /*Hidden for now*/
+        //binding.pieChartView.updateValues(amountByCategory, totalAmount)
     }
 
 }

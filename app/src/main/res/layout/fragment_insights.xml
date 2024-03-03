@@ -1,79 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
     android:background="@color/powder"
+    android:padding="8dp"
     tools:context=".fragment.InsightsFragment">
 
     <TextView
         android:id="@+id/tvHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
+        android:text="@string/insights"
+        android:textColor="@color/black"
         android:textSize="26sp"
-        android:text="@string/insights" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnThisWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvHeading"
-        app:layout_constraintStart_toStartOf="@id/tvHeading"
         android:layout_marginTop="16dp"
-        android:text="@string/this_week"
         android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
+        android:text="@string/this_week"
         android:textAllCaps="false"
         android:textSize="12sp"
         app:cornerRadius="20dp"
-        android:paddingHorizontal="15dp" />
+        app:layout_constraintStart_toStartOf="@id/tvHeading"
+        app:layout_constraintTop_toBottomOf="@id/tvHeading" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnThisMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toTopOf="@id/btnThisWeek"
-        app:layout_constraintStart_toEndOf="@id/btnThisWeek"
         android:layout_marginStart="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
         android:text="@string/this_month"
-        android:textSize="12sp"
         android:textAllCaps="false"
+        android:textSize="12sp"
         app:cornerRadius="20dp"
-        android:paddingHorizontal="15dp" />
+        app:layout_constraintStart_toEndOf="@id/btnThisWeek"
+        app:layout_constraintTop_toTopOf="@id/btnThisWeek" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnThisYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toTopOf="@id/btnThisMonth"
-        app:layout_constraintStart_toEndOf="@id/btnThisMonth"
         android:layout_marginStart="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="15dp"
         android:text="@string/this_year"
-        android:textSize="12sp"
         android:textAllCaps="false"
+        android:textSize="12sp"
         app:cornerRadius="20dp"
-        android:paddingHorizontal="15dp" />
+        app:layout_constraintStart_toEndOf="@id/btnThisMonth"
+        app:layout_constraintTop_toTopOf="@id/btnThisMonth" />
 
+    <!--<androidx.cardview.widget.CardView
+        android:id="@+id/pieChartCardView"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:layout_constraintTop_toBottomOf="@id/btnThisWeek"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="8dp">
+
+        <com.example.expensetracker.graph.PieChartView
+            android:id="@+id/pieChartView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+
+    </androidx.cardview.widget.CardView>
+-->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btnThisMonth"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         app:cardBackgroundColor="@color/powder"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnThisWeek">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/insightsRecyclerview"

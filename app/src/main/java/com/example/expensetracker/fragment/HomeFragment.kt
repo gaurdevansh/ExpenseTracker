@@ -36,13 +36,16 @@ class HomeFragment : Fragment() {
         selectedTimeFrame = TimeFrame.WEEK
         viewModel = (activity as MainActivity).homeViewModel
         viewModel.monthTotalExpense.observe(viewLifecycleOwner) { result ->
-            binding.tvTotalMonthExpense.text = resources.getString(R.string.rupees_symbol) + result.toString()
+            binding.tvTotalMonthExpense.text =
+                resources.getString(R.string.rupees_symbol) + result.toString()
         }
         viewModel.weekTotalExpense.observe(viewLifecycleOwner) { result ->
-            binding.tvTotalWeekExpense.text = resources.getString(R.string.rupees_symbol) + result.toString()
+            binding.tvTotalWeekExpense.text =
+                resources.getString(R.string.rupees_symbol) + result.toString()
         }
         viewModel.yearTotalExpense.observe(viewLifecycleOwner) { result ->
-            binding.tvTotalYearExpense.text = resources.getString(R.string.rupees_symbol) + result.toString()
+            binding.tvTotalYearExpense.text =
+                resources.getString(R.string.rupees_symbol) + result.toString()
         }
         setUpRecyclerview()
         setupTimeFrameControls()

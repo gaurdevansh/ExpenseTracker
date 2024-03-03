@@ -14,10 +14,11 @@ import java.time.YearMonth
 import java.time.temporal.TemporalAdjuster
 import java.time.temporal.TemporalAdjusters
 
-class HomeViewModel(private val repository: TransactionRepository): ViewModel() {
+class HomeViewModel(private val repository: TransactionRepository) : ViewModel() {
 
     private var currentMonthStart: LocalDate = YearMonth.from(LocalDate.now()).atDay(1)
-    private var currentWeekStart: LocalDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    private var currentWeekStart: LocalDate =
+        LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
     private var currentYearStart: LocalDate = Year.from(LocalDate.now()).atDay(1)
     var monthTotalExpense: MutableLiveData<Int> = MutableLiveData()
     var weekTotalExpense: MutableLiveData<Int> = MutableLiveData()
