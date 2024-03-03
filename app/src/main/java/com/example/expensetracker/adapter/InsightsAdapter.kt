@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.databinding.InsightsItemBinding
 import com.example.expensetracker.model.ExpenseCategory
 
-class InsightsAdapter(): RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder>() {
+class InsightsAdapter() : RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder>() {
 
     private var amountByCategory = mutableMapOf<String, Int>()
     private var categoryList: List<ExpenseCategory> = ArrayList()
     private var grandTotal = 0
 
-    inner class InsightsViewHolder(private val binding: InsightsItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class InsightsViewHolder(private val binding: InsightsItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val image = binding.imageIcon
         val title = binding.tvTitle
         val percent = binding.tvPercent
@@ -28,23 +29,25 @@ class InsightsAdapter(): RecyclerView.Adapter<InsightsAdapter.InsightsViewHolder
     }
 
     override fun getItemCount(): Int {
-        return categoryList.size
+        return amountByCategory.size
     }
 
     override fun onBindViewHolder(holder: InsightsViewHolder, position: Int) {
-        val index = categoryList[position]
-        val item = amountByCategory[index.title] ?: 0
-        if(item != 0) {
-            holder.title.text = index.title
-            holder.amount.text = "\u20B9" + item.toString()
-            holder.percent.text = ((item*100) / grandTotal).toString() + "%"
-            holder.progressBar.progressAmount = ((item.toFloat() / grandTotal.toFloat()) * 100).toInt()
-        }
+        val (title, amount) = amountByCategory.entries.elementAt(position)
+        holder.title.text = title
+        holder.amount.text = "\u20B9" + amount.toString()
+        holder.percent.text = ((amount * 100) / grandTotal).toString() + "%"
+        holder.progressBar.progressAmount =
+            ((amount.toFloat() / grandTotal.toFloat()) * 100).toInt()
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(amountByCategory: MutableMap<String, Int>, grandTotal: Int, categoryList: List<ExpenseCategory>) {
+    fun updateData(
+        amountByCategory: MutableMap<String, Int>,
+        grandTotal: Int,
+        categoryList: List<ExpenseCategory>
+    ) {
         this.amountByCategory = amountByCategory
         this.grandTotal = grandTotal
         this.categoryList = categoryList

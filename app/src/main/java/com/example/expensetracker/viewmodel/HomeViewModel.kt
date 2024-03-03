@@ -22,6 +22,9 @@ class HomeViewModel(private val repository: TransactionRepository): ViewModel() 
     var monthTotalExpense: MutableLiveData<Int> = MutableLiveData()
     var weekTotalExpense: MutableLiveData<Int> = MutableLiveData()
     var yearTotalExpense: MutableLiveData<Int> = MutableLiveData()
+    var weekTransactionList: MutableLiveData<List<Transaction>> = MutableLiveData()
+    var monthTransactionList: MutableLiveData<List<Transaction>> = MutableLiveData()
+    var yearTransactionList: MutableLiveData<List<Transaction>> = MutableLiveData()
     var recentTransactions: MutableLiveData<List<Transaction>> = MutableLiveData()
 
     init {
@@ -35,6 +38,7 @@ class HomeViewModel(private val repository: TransactionRepository): ViewModel() 
         viewModelScope.launch {
             repository.getTransactionByMonthStart(currentMonthStart)
                 .observeForever { transactionList ->
+                    monthTransactionList.postValue(transactionList)
                     monthTotalExpense.postValue(transactionList.sumOf { it.amount.toInt() })
                 }
         }
@@ -44,6 +48,7 @@ class HomeViewModel(private val repository: TransactionRepository): ViewModel() 
         viewModelScope.launch {
             repository.getTransactionByMonthStart(currentWeekStart)
                 .observeForever { transactionList ->
+                    weekTransactionList.postValue(transactionList)
                     weekTotalExpense.postValue(transactionList.sumOf { it.amount.toInt() })
                 }
         }
@@ -53,6 +58,7 @@ class HomeViewModel(private val repository: TransactionRepository): ViewModel() 
         viewModelScope.launch {
             repository.getTransactionByMonthStart(currentYearStart)
                 .observeForever { transactionList ->
+                    yearTransactionList.postValue(transactionList)
                     yearTotalExpense.postValue(transactionList.sumOf { it.amount.toInt() })
                 }
         }

@@ -14,17 +14,23 @@ import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.utils.TimeFrame
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
+import com.example.expensetracker.viewmodel.HomeViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
 
 class InsightsFragment : Fragment() {
 
     private lateinit var binding: FragmentInsightsBinding
     private lateinit var transactionViewModel: TransactionViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
     private lateinit var transactions: List<Transaction>
     private var categories: List<ExpenseCategory> = mutableListOf()
-    private var amountByCategory = mutableMapOf<String, Int>()
-    private var grandTotal: Int = 0
+    private var weekAmountByCategory = mutableMapOf<String, Int>()
+    private var monthAmountByCategory = mutableMapOf<String, Int>()
+    private var yearAmountByCategory = mutableMapOf<String, Int>()
+    private var monthGrandTotal: Int = 0
+    private var weekGrandTotal: Int = 0
+    private var yearGrandTotal: Int = 0
     private lateinit var insightsAdapter: InsightsAdapter
     private var selectedTimeFrame: TimeFrame = TimeFrame.WEEK
 
@@ -44,25 +50,69 @@ class InsightsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         transactionViewModel = (activity as MainActivity).viewModel
         categoryViewModel = (activity as MainActivity).expenseViewModel
+        homeViewModel = (activity as MainActivity).homeViewModel
         selectedTimeFrame = TimeFrame.WEEK
-        getCategoryWiseExpense()
+        getWeeklyCategoryWiseExpense()
         monitorTimeFrame()
         setupTimeFrameControls()
-
     }
 
-    private fun getCategoryWiseExpense() {
-        transactionViewModel.getTransactions().observe(viewLifecycleOwner) { transactionList ->
+    private fun getMonthlyCategoryWiseExpense() {
+        homeViewModel.monthTransactionList.observe(viewLifecycleOwner) { transactionList ->
             transactions = transactionList
             categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
                 categories = categoryList
                 val groupedTransactions = transactions.groupBy { it.category }
                 groupedTransactions.forEach { (category, transactions) ->
                     val totalAmount = transactions.sumOf { it.amount.toInt() }
-                    amountByCategory[category] = totalAmount
-                    grandTotal += totalAmount
+                    if (totalAmount != 0) {
+                        monthAmountByCategory[category] = totalAmount
+                    }
+                    monthGrandTotal += totalAmount
                 }
-                setUpRecyclerview()
+                if (selectedTimeFrame == TimeFrame.MONTH) {
+                    setUpRecyclerview()
+                }
+            }
+        }
+    }
+
+    private fun getYearlyCategoryWiseExpense() {
+        homeViewModel.yearTransactionList.observe(viewLifecycleOwner) { transactionList ->
+            transactions = transactionList
+            categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
+                categories = categoryList
+                val groupedTransactions = transactions.groupBy { it.category }
+                groupedTransactions.forEach { (category, transactions) ->
+                    val totalAmount = transactions.sumOf { it.amount.toInt() }
+                    if (totalAmount != 0) {
+                        yearAmountByCategory[category] = totalAmount
+                    }
+                    yearGrandTotal += totalAmount
+                }
+                if (selectedTimeFrame == TimeFrame.YEAR) {
+                    setUpRecyclerview()
+                }
+            }
+        }
+    }
+
+    private fun getWeeklyCategoryWiseExpense() {
+        homeViewModel.weekTransactionList.observe(viewLifecycleOwner) { transactionList ->
+            transactions = transactionList
+            categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
+                categories = categoryList
+                val groupedTransactions = transactions.groupBy { it.category }
+                groupedTransactions.forEach { (category, transactions) ->
+                    val totalAmount = transactions.sumOf { it.amount.toInt() }
+                    if (totalAmount != 0) {
+                        weekAmountByCategory[category] = totalAmount
+                    }
+                    weekGrandTotal += totalAmount
+                }
+                if (selectedTimeFrame == TimeFrame.WEEK) {
+                    setUpRecyclerview()
+                }
             }
         }
     }
@@ -71,21 +121,29 @@ class InsightsFragment : Fragment() {
         insightsAdapter = InsightsAdapter()
         binding.insightsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.insightsRecyclerview.adapter = insightsAdapter
-        insightsAdapter.updateData(amountByCategory, grandTotal, categories)
+        when (selectedTimeFrame) {
+            TimeFrame.WEEK -> insightsAdapter.updateData(weekAmountByCategory, weekGrandTotal, categories)
+            TimeFrame.MONTH -> insightsAdapter.updateData(monthAmountByCategory, monthGrandTotal, categories)
+            TimeFrame.YEAR -> insightsAdapter.updateData(yearAmountByCategory, yearGrandTotal, categories)
+        }
+
     }
 
     private fun setupTimeFrameControls() {
         binding.btnThisWeek.setOnClickListener {
             selectedTimeFrame = TimeFrame.WEEK
             monitorTimeFrame()
+            getWeeklyCategoryWiseExpense()
         }
         binding.btnThisMonth.setOnClickListener {
             selectedTimeFrame = TimeFrame.MONTH
             monitorTimeFrame()
+            getMonthlyCategoryWiseExpense()
         }
         binding.btnThisYear.setOnClickListener {
             selectedTimeFrame = TimeFrame.YEAR
             monitorTimeFrame()
+            getYearlyCategoryWiseExpense()
         }
     }
 

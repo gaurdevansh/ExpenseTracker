@@ -11,7 +11,7 @@ import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
 import com.example.expensetracker.utils.Converters
 
-@Database(entities = [Transaction::class, ExpenseCategory::class], version = 2)
+@Database(entities = [Transaction::class, ExpenseCategory::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
