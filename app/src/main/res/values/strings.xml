@@ -36,4 +36,7 @@
     <string name="expense_history">Expense History</string>
     <string name="add_expense">Add Expense</string>
     <string name="this_year">This year</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
 </resources>

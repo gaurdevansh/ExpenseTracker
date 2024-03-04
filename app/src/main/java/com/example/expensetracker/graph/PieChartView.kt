@@ -6,6 +6,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.example.expensetracker.R
+import com.example.expensetracker.utils.CustomColor
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -13,25 +14,28 @@ import kotlin.math.sin
 class PieChartView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private var amountByCategory = mutableMapOf<String, Int>()
-    private var totalAmount = 100
+    private var totalAmount = 0
 
     private val paint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
-        strokeWidth = 80f
+        strokeWidth = 60f
     }
 
-    private val colors = arrayOf(
-        resources.getColor(R.color.dark_green),
+    /*private val colors = arrayOf(
+        resources.getColor(R.color.royal_blue),
+        resources.getColor(R.color.red_shade),
+        resources.getColor(R.color.green_shade),
+        resources.getColor(R.color.violet),
+        resources.getColor(R.color.orange),
         resources.getColor(R.color.dark_yellow),
-        resources.getColor(R.color.dark_brown),
-        resources.getColor(R.color.blue),
-        resources.getColor(R.color.orange)
-    )
+        resources.getColor(R.color.red_purple)
+        )*/
 
     @SuppressLint("CanvasSize")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
 
         if (canvas == null) return
 
@@ -42,22 +46,23 @@ class PieChartView(context: Context, attrs: AttributeSet? = null) : View(context
         val centerY = height / 2
 
         var startAngle = -70f
-        var gapAngle = 18f
+        var gapAngle = 1f
 
-        val semiCircleRadius = paint.strokeWidth * 0.1f - 7.5f
+        //val semiCircleRadius = paint.strokeWidth * 0.1f - 5.5f
         var index = 0
 
         for ((_, value) in amountByCategory) {
             val sweepAngle = 360f * (value.toFloat() / totalAmount.toFloat())
-            paint.color = colors[index % colors.size]
+            paint.color = CustomColor.getColor(context, index % CustomColor.TOTAL_COLORS)
 
             //Main Arc
             canvas.drawArc(
                 centerX - radius, centerY - radius, centerX + radius, centerY + radius,
-                startAngle + gapAngle, sweepAngle - gapAngle, false, paint
+                startAngle, sweepAngle - gapAngle, false, paint
             )
 
-            val startAngleRadians = Math.toRadians(startAngle.toDouble() + gapAngle.toDouble())
+            //Segment end semi circle code
+            /*val startAngleRadians = Math.toRadians(startAngle.toDouble() + gapAngle.toDouble())
             val startX = centerX + radius * cos(startAngleRadians).toFloat()
             val startY = centerY + radius * sin(startAngleRadians).toFloat()
 
@@ -87,7 +92,7 @@ class PieChartView(context: Context, attrs: AttributeSet? = null) : View(context
                 180f,
                 false,
                 paint
-            )
+            )*/
 
             startAngle += sweepAngle
             index++

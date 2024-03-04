@@ -24,4 +24,9 @@
     <color name="dark_brown">#5C4033</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="orange">#FFA500</color>
+    <color name="red_shade">#E30B5C</color>
+    <color name="green_shade">#009E60</color>
+    <color name="violet">#7F00FF</color>
+    <color name="red_purple">#953553</color>
+    <color name="royal_blue">#4169E1</color>
 </resources>

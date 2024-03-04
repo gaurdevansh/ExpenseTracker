@@ -135,36 +135,39 @@ class InsightsFragment : Fragment() {
             TimeFrame.WEEK -> insightsAdapter.updateData(
                 weekAmountByCategory,
                 weekGrandTotal,
-                categories
+                categories,
+                requireContext()
             )
             TimeFrame.MONTH -> insightsAdapter.updateData(
                 monthAmountByCategory,
                 monthGrandTotal,
-                categories
+                categories,
+                requireContext()
             )
             TimeFrame.YEAR -> insightsAdapter.updateData(
                 yearAmountByCategory,
                 yearGrandTotal,
-                categories
+                categories,
+                requireContext()
             )
         }
     }
 
     private fun setupTimeFrameControls() {
-        binding.btnThisWeek.setOnClickListener {
+        binding.btnWeek.setOnClickListener {
             selectedTimeFrame = TimeFrame.WEEK
             monitorTimeFrame()
             updateTimeFrameData()
             showPieChartView(weekAmountByCategory, weekGrandTotal)
         }
-        binding.btnThisMonth.setOnClickListener {
+        binding.btnMonth.setOnClickListener {
             selectedTimeFrame = TimeFrame.MONTH
             monitorTimeFrame()
             updateTimeFrameData()
             showPieChartView(monthAmountByCategory, monthGrandTotal)
 
         }
-        binding.btnThisYear.setOnClickListener {
+        binding.btnYear.setOnClickListener {
             selectedTimeFrame = TimeFrame.YEAR
             monitorTimeFrame()
             updateTimeFrameData()
@@ -175,35 +178,35 @@ class InsightsFragment : Fragment() {
     private fun monitorTimeFrame() {
         when (selectedTimeFrame) {
             TimeFrame.WEEK -> {
-                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.black))
-                binding.btnThisWeek.setTextColor(resources.getColor(R.color.white))
-                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
-                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
+                binding.btnWeek.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnWeek.setTextColor(resources.getColor(R.color.white))
+                binding.btnMonth.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnMonth.setTextColor(resources.getColor(R.color.black))
+                binding.btnYear.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnYear.setTextColor(resources.getColor(R.color.black))
             }
             TimeFrame.MONTH -> {
-                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisWeek.setTextColor(resources.getColor(R.color.black))
-                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.black))
-                binding.btnThisMonth.setTextColor(resources.getColor(R.color.white))
-                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisYear.setTextColor(resources.getColor(R.color.black))
+                binding.btnWeek.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnWeek.setTextColor(resources.getColor(R.color.black))
+                binding.btnMonth.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnMonth.setTextColor(resources.getColor(R.color.white))
+                binding.btnYear.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnYear.setTextColor(resources.getColor(R.color.black))
             }
             TimeFrame.YEAR -> {
-                binding.btnThisWeek.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisWeek.setTextColor(resources.getColor(R.color.black))
-                binding.btnThisMonth.setBackgroundColor(resources.getColor(R.color.white))
-                binding.btnThisMonth.setTextColor(resources.getColor(R.color.black))
-                binding.btnThisYear.setBackgroundColor(resources.getColor(R.color.black))
-                binding.btnThisYear.setTextColor(resources.getColor(R.color.white))
+                binding.btnWeek.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnWeek.setTextColor(resources.getColor(R.color.black))
+                binding.btnMonth.setBackgroundColor(resources.getColor(R.color.white))
+                binding.btnMonth.setTextColor(resources.getColor(R.color.black))
+                binding.btnYear.setBackgroundColor(resources.getColor(R.color.black))
+                binding.btnYear.setTextColor(resources.getColor(R.color.white))
             }
         }
     }
 
     private fun showPieChartView(amountByCategory: MutableMap<String, Int>, totalAmount: Int) {
         /*Hidden for now*/
-        //binding.pieChartView.updateValues(amountByCategory, totalAmount)
+        binding.pieChartView.updateValues(amountByCategory, totalAmount)
     }
 
 }
