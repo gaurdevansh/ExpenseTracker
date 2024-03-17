@@ -1,11 +1,14 @@
 package com.example.expensetracker.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.R
 import com.example.expensetracker.activity.MainActivity
@@ -14,30 +17,34 @@ import com.example.expensetracker.databinding.FragmentInsightsBinding
 import com.example.expensetracker.graph.PieChartView
 import com.example.expensetracker.model.ExpenseCategory
 import com.example.expensetracker.model.Transaction
+import com.example.expensetracker.utils.DateUtils
 import com.example.expensetracker.utils.TimeFrame
 import com.example.expensetracker.viewmodel.ExpenseCategoryViewModel
 import com.example.expensetracker.viewmodel.HomeViewModel
 import com.example.expensetracker.viewmodel.TransactionViewModel
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Year
+import java.time.YearMonth
+import java.time.temporal.TemporalAdjusters
 
 class InsightsFragment : Fragment() {
 
     private lateinit var binding: FragmentInsightsBinding
     private lateinit var transactionViewModel: TransactionViewModel
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var categoryViewModel: ExpenseCategoryViewModel
-    private var categories: List<ExpenseCategory> = mutableListOf()
-    private var weekAmountByCategory = mutableMapOf<String, Int>()
-    private var monthAmountByCategory = mutableMapOf<String, Int>()
-    private var yearAmountByCategory = mutableMapOf<String, Int>()
-    private var monthGrandTotal: Int = 0
-    private var weekGrandTotal: Int = 0
-    private var yearGrandTotal: Int = 0
     private lateinit var insightsAdapter: InsightsAdapter
     private var selectedTimeFrame: TimeFrame = TimeFrame.WEEK
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var grandTotal = 0
+    private var fromDate: LocalDate = DateUtils.getStartPeriod(LocalDate.now(), selectedTimeFrame)
+    private var amountByCategory = mutableMapOf<String, Int>()
+    private lateinit var allTransactionList: List<Transaction>
+    private var transactionList: MutableList<Transaction> = mutableListOf()
+    private var categoryList: MutableList<ExpenseCategory> = mutableListOf()
+    private var dateToday: LocalDate = LocalDate.now()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,131 +58,94 @@ class InsightsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         transactionViewModel = (activity as MainActivity).viewModel
         categoryViewModel = (activity as MainActivity).expenseViewModel
-        homeViewModel = (activity as MainActivity).homeViewModel
         selectedTimeFrame = TimeFrame.WEEK
-        monitorTimeFrame()
-        getWeeklyCategoryWiseExpense()
-        getMonthlyCategoryWiseExpense()
-        getYearlyCategoryWiseExpense()
+
+        fetchTransactionData()
+        updateTimeFrameButtons()
         setupTimeFrameControls()
     }
 
-    private fun getMonthlyCategoryWiseExpense() {
-        homeViewModel.monthTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            val transactions = transactionList
-            categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
-                categories = categoryList
-                val groupedTransactions = transactions.groupBy { it.category }
-                groupedTransactions.forEach { (category, transactions) ->
-                    val totalAmount = transactions.sumOf { it.amount.toInt() }
-                    if (totalAmount != 0) {
-                        monthAmountByCategory[category] = totalAmount
-                    }
-                    monthGrandTotal += totalAmount
-                }
-                if (selectedTimeFrame == TimeFrame.MONTH) {
-                    setUpRecyclerview()
-                    showPieChartView(monthAmountByCategory, monthGrandTotal)
-                }
-            }
+    private fun fetchTransactionData() {
+        categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
+            this.categoryList = categoryList.toMutableList()
+        }
+        transactionViewModel.getTransactions(viewLifecycleOwner)
+        transactionViewModel.allTransactionData.observe(viewLifecycleOwner) {transactionList ->
+            this.allTransactionList = transactionList
+            handleTransactions()
         }
     }
 
-    private fun getYearlyCategoryWiseExpense() {
-        homeViewModel.yearTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            val transactions = transactionList
-            categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
-                categories = categoryList
-                val groupedTransactions = transactions.groupBy { it.category }
-                groupedTransactions.forEach { (category, transactions) ->
-                    val totalAmount = transactions.sumOf { it.amount.toInt() }
-                    if (totalAmount != 0) {
-                        yearAmountByCategory[category] = totalAmount
-                    }
-                    yearGrandTotal += totalAmount
-                }
-                if (selectedTimeFrame == TimeFrame.YEAR) {
-                    setUpRecyclerview()
-                    showPieChartView(yearAmountByCategory, yearGrandTotal)
-                }
+    @SuppressLint("SetTextI18n")
+    private fun handleTransactions() {
+        grandTotal = 0
+        amountByCategory.clear()
+        transactionList.clear()
+        transactionList = allTransactionList.filter { it.date >= fromDate }.toMutableList()
+        val groupedTransaction = transactionList.groupBy { it.category }
+        groupedTransaction.forEach { (category, transactions) ->
+            val totalAmount = transactions.sumOf { it.amount.toInt() }
+            if (totalAmount != 0) {
+                amountByCategory[category] = totalAmount
             }
+            grandTotal += totalAmount
         }
-    }
-
-    private fun getWeeklyCategoryWiseExpense() {
-        homeViewModel.weekTransactionList.observe(viewLifecycleOwner) { transactionList ->
-            val transactions = transactionList
-            categoryViewModel.getAllExpenseCategory().observe(viewLifecycleOwner) { categoryList ->
-                categories = categoryList
-                val groupedTransactions = transactions.groupBy { it.category }
-                groupedTransactions.forEach { (category, transactions) ->
-                    val totalAmount = transactions.sumOf { it.amount.toInt() }
-                    if (totalAmount != 0) {
-                        weekAmountByCategory[category] = totalAmount
-                    }
-                    weekGrandTotal += totalAmount
-                }
-                if (selectedTimeFrame == TimeFrame.WEEK) {
-                    setUpRecyclerview()
-                    showPieChartView(weekAmountByCategory, weekGrandTotal)
-                }
-            }
-        }
+        setUpRecyclerview()
+        showPieChartView(amountByCategory, grandTotal)
+        binding.tvTotalAmount.text = " ${resources.getText(R.string.rupees_symbol)} $grandTotal"
     }
 
     private fun setUpRecyclerview() {
-        insightsAdapter = InsightsAdapter()
-        binding.insightsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-        binding.insightsRecyclerview.adapter = insightsAdapter
-        updateTimeFrameData()
+        if (!::insightsAdapter.isInitialized) {
+            insightsAdapter = InsightsAdapter()
+            binding.insightsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+            binding.insightsRecyclerview.adapter = insightsAdapter
+        }
+        insightsAdapter.updateData(
+            amountByCategory,
+            grandTotal,
+            categoryList,
+            requireContext()
+        )
     }
 
-    private fun updateTimeFrameData() {
+    private fun updateTimeFrameDates() {
         when (selectedTimeFrame) {
-            TimeFrame.WEEK -> insightsAdapter.updateData(
-                weekAmountByCategory,
-                weekGrandTotal,
-                categories,
-                requireContext()
-            )
-            TimeFrame.MONTH -> insightsAdapter.updateData(
-                monthAmountByCategory,
-                monthGrandTotal,
-                categories,
-                requireContext()
-            )
-            TimeFrame.YEAR -> insightsAdapter.updateData(
-                yearAmountByCategory,
-                yearGrandTotal,
-                categories,
-                requireContext()
-            )
+            TimeFrame.WEEK -> {
+                fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.WEEK)
+                handleTransactions()
+            }
+            TimeFrame.MONTH -> {
+                fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.MONTH)
+                handleTransactions()
+            }
+            TimeFrame.YEAR -> {
+                fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.YEAR)
+                handleTransactions()
+            }
         }
     }
 
     private fun setupTimeFrameControls() {
         binding.btnWeek.setOnClickListener {
             selectedTimeFrame = TimeFrame.WEEK
-            monitorTimeFrame()
-            updateTimeFrameData()
-            showPieChartView(weekAmountByCategory, weekGrandTotal)
+            updateTimeFrameButtons()
+            updateTimeFrameDates()
         }
         binding.btnMonth.setOnClickListener {
             selectedTimeFrame = TimeFrame.MONTH
-            monitorTimeFrame()
-            updateTimeFrameData()
-            showPieChartView(monthAmountByCategory, monthGrandTotal)
+            updateTimeFrameButtons()
+            updateTimeFrameDates()
 
         }
         binding.btnYear.setOnClickListener {
             selectedTimeFrame = TimeFrame.YEAR
-            monitorTimeFrame()
-            updateTimeFrameData()
-            showPieChartView(yearAmountByCategory, yearGrandTotal)
+            updateTimeFrameButtons()
+            updateTimeFrameDates()
         }
     }
 
-    private fun monitorTimeFrame() {
+    private fun updateTimeFrameButtons() {
         when (selectedTimeFrame) {
             TimeFrame.WEEK -> {
                 binding.btnWeek.setBackgroundColor(resources.getColor(R.color.black))
@@ -205,7 +175,6 @@ class InsightsFragment : Fragment() {
     }
 
     private fun showPieChartView(amountByCategory: MutableMap<String, Int>, totalAmount: Int) {
-        /*Hidden for now*/
         binding.pieChartView.updateValues(amountByCategory, totalAmount)
     }
 

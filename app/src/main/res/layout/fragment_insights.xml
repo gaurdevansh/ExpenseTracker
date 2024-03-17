@@ -130,11 +130,10 @@
             android:id="@+id/tvTotalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center"
-            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
-            android:text="\u20B9 4872" />
+            android:textSize="24sp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -144,10 +143,11 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pieChartCardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
