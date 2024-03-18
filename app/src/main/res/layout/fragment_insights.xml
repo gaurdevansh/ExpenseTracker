@@ -133,6 +133,7 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
     </androidx.cardview.widget.CardView>

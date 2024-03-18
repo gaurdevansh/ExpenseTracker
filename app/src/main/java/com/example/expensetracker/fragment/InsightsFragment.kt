@@ -30,6 +30,7 @@ import java.time.LocalDate
 import java.time.Year
 import java.time.YearMonth
 import java.time.temporal.TemporalAdjusters
+import java.util.Date
 
 class InsightsFragment : Fragment() {
 
@@ -63,6 +64,13 @@ class InsightsFragment : Fragment() {
         fetchTransactionData()
         updateTimeFrameButtons()
         setupTimeFrameControls()
+
+        binding.leftBtn.setOnClickListener {
+            getTimeFrameDates(true)
+        }
+        binding.rightBtn.setOnClickListener {
+            getTimeFrameDates(false)
+        }
     }
 
     private fun fetchTransactionData() {
@@ -70,7 +78,7 @@ class InsightsFragment : Fragment() {
             this.categoryList = categoryList.toMutableList()
         }
         transactionViewModel.getTransactions(viewLifecycleOwner)
-        transactionViewModel.allTransactionData.observe(viewLifecycleOwner) {transactionList ->
+        transactionViewModel.allTransactionData.observe(viewLifecycleOwner) { transactionList ->
             this.allTransactionList = transactionList
             handleTransactions()
         }
@@ -81,7 +89,7 @@ class InsightsFragment : Fragment() {
         grandTotal = 0
         amountByCategory.clear()
         transactionList.clear()
-        transactionList = allTransactionList.filter { it.date >= fromDate }.toMutableList()
+        transactionList = allTransactionList.filter { it.date in fromDate..dateToday }.toMutableList()
         val groupedTransaction = transactionList.groupBy { it.category }
         groupedTransaction.forEach { (category, transactions) ->
             val totalAmount = transactions.sumOf { it.amount.toInt() }
@@ -93,6 +101,10 @@ class InsightsFragment : Fragment() {
         setUpRecyclerview()
         showPieChartView(amountByCategory, grandTotal)
         binding.tvTotalAmount.text = " ${resources.getText(R.string.rupees_symbol)} $grandTotal"
+        if (grandTotal == 0) {
+            binding.tvTotalAmount.text = "No Expense in this\ntime frame"
+        }
+        updateDateViews()
     }
 
     private fun setUpRecyclerview() {
@@ -126,20 +138,23 @@ class InsightsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupTimeFrameControls() {
         binding.btnWeek.setOnClickListener {
             selectedTimeFrame = TimeFrame.WEEK
+            dateToday = LocalDate.now()
             updateTimeFrameButtons()
             updateTimeFrameDates()
         }
         binding.btnMonth.setOnClickListener {
             selectedTimeFrame = TimeFrame.MONTH
+            dateToday = LocalDate.now()
             updateTimeFrameButtons()
             updateTimeFrameDates()
-
         }
         binding.btnYear.setOnClickListener {
             selectedTimeFrame = TimeFrame.YEAR
+            dateToday = LocalDate.now()
             updateTimeFrameButtons()
             updateTimeFrameDates()
         }
@@ -176,6 +191,64 @@ class InsightsFragment : Fragment() {
 
     private fun showPieChartView(amountByCategory: MutableMap<String, Int>, totalAmount: Int) {
         binding.pieChartView.updateValues(amountByCategory, totalAmount)
+    }
+
+    private fun getTimeFrameDates(goBack: Boolean) {
+        if (!goBack && dateToday == LocalDate.now()) {
+            return
+        } else if (goBack) {
+            when (selectedTimeFrame) {
+                TimeFrame.WEEK -> {
+                    dateToday = fromDate.minusDays(1)
+                    fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.WEEK)
+                }
+                TimeFrame.MONTH -> {
+                    dateToday = fromDate.minusDays(1)
+                    fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.MONTH)
+                }
+                TimeFrame.YEAR -> {
+                    dateToday = fromDate.minusDays(1)
+                    fromDate = DateUtils.getStartPeriod(dateToday, TimeFrame.YEAR)
+                }
+            }
+            handleTransactions()
+        } else {
+            when (selectedTimeFrame) {
+                TimeFrame.WEEK -> {
+                    fromDate = dateToday.plusDays(1)
+                    dateToday = fromDate.plusDays(6)
+                }
+                TimeFrame.MONTH -> {
+                    fromDate = dateToday.plusDays(1)
+                    dateToday = DateUtils.getEndPeriod(fromDate, TimeFrame.MONTH)
+                }
+                TimeFrame.YEAR -> {
+                    fromDate = dateToday.plusDays(1)
+                    dateToday = DateUtils.getEndPeriod(fromDate, TimeFrame.YEAR)
+                }
+            }
+            handleTransactions()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateDateViews() {
+        when(selectedTimeFrame) {
+            TimeFrame.WEEK -> {
+                if (fromDate == dateToday) {
+                    binding.tvTime.text = "${dateToday.dayOfMonth} ${dateToday.month} ${dateToday.year}"
+                } else {
+                    binding.tvTime.text =
+                        "${fromDate.dayOfMonth} - ${dateToday.dayOfMonth} ${dateToday.month} ${dateToday.year}"
+                }
+            }
+            TimeFrame.MONTH -> {
+                binding.tvTime.text = "${dateToday.month} ${dateToday.year}"
+            }
+            TimeFrame.YEAR -> {
+                binding.tvTime.text = "${dateToday.year}"
+            }
+        }
     }
 
 }

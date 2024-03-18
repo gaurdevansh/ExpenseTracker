@@ -3,6 +3,7 @@ package com.example.expensetracker.utils
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import java.util.Locale
 
 object DateUtils {
@@ -25,6 +26,21 @@ object DateUtils {
             }
             TimeFrame.YEAR -> {
                 currentDate.withYear(1)
+            }
+        }
+    }
+
+    fun getEndPeriod(currentDate: LocalDate, timeFrame: TimeFrame): LocalDate {
+        return when(timeFrame) {
+            TimeFrame.WEEK -> {
+                currentDate.plusDays(6)
+            }
+            TimeFrame.MONTH -> {
+                currentDate.with(TemporalAdjusters.lastDayOfMonth())
+
+            }
+            TimeFrame.YEAR -> {
+                currentDate.with(TemporalAdjusters.lastDayOfYear())
             }
         }
     }
