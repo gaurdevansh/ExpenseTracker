@@ -11,276 +11,142 @@
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="12dp"
-        android:src="@drawable/ic_back" />
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/headingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backBtn"
         android:layout_marginTop="12dp"
-        android:textColor="@color/black"
         android:fontFamily="sans-serif-medium"
         android:text="@string/add_new_expense"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="20sp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backBtn" />
 
     <TextView
         android:id="@+id/subHeadingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headingText"
         android:layout_marginTop="2dp"
-        android:textColor="@color/gray"
         android:fontFamily="sans-serif-medium"
         android:text="@string/subheading_add_transaction"
-        android:textSize="14sp" />
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headingText" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/subHeadingText"
         android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/subHeadingText">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/enter_amount"
-            android:textColor="@color/black"
             android:fontFamily="sans-serif-medium"
-            android:fontFeatureSettings="16sp" />
+            android:fontFeatureSettings="16sp"
+            android:text="@string/enter_amount"
+            android:textColor="@color/black" />
 
         <EditText
+            android:id="@+id/etAmount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:hint="@string/amount_hint"
-            android:paddingStart="20dp"
-            android:inputType="number"
-            android:textColor="@color/black"
+            android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_rupees"
             android:fontFamily="sans-serif-medium"
-            android:background="@drawable/edit_text_background"
-            android:id="@+id/etAmount" />
+            android:hint="@string/amount_hint"
+            android:inputType="number"
+            android:paddingStart="20dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:fontFeatureSettings="16sp"
             android:text="@string/enter_description"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginTop="20dp"
-            android:fontFeatureSettings="16sp" />
+            android:textColor="@color/black" />
 
         <EditText
+            android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="sans-serif-medium"
             android:hint="@string/description_hint"
-            android:paddingStart="20dp"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
             android:inputType="text"
-            android:background="@drawable/edit_text_background"
-            android:id="@+id/etDescription" />
+            android:paddingStart="20dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:fontFeatureSettings="16sp"
             android:text="@string/select_category"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginTop="20dp"
-            android:fontFeatureSettings="16sp" />
+            android:textColor="@color/black" />
 
         <EditText
+            android:id="@+id/etCategory"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:paddingStart="20dp"
-            android:editable="false"
-            android:hint="Food"
-            android:textColor="@color/black"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:paddingEnd="16dp"
-            android:fontFamily="sans-serif-medium"
-            android:inputType="none"
             android:background="@drawable/edit_text_background"
-            android:id="@+id/etCategory" />
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:editable="false"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Food"
+            android:inputType="none"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/select_date"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
             android:layout_marginTop="20dp"
-            android:fontFeatureSettings="16sp" />
+            android:fontFamily="sans-serif-medium"
+            android:fontFeatureSettings="16sp"
+            android:text="@string/select_date"
+            android:textColor="@color/black" />
 
         <EditText
+            android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:paddingStart="20dp"
-            android:text="12-02-2024"
-            android:editable="false"
-            android:textColor="@color/black"
+            android:background="@drawable/edit_text_background"
             android:drawableEnd="@drawable/ic_date"
-            android:paddingEnd="16dp"
+            android:editable="false"
             android:fontFamily="sans-serif-medium"
             android:inputType="none"
-            android:background="@drawable/edit_text_background"
-            android:id="@+id/etDate" />
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="12-02-2024"
+            android:textColor="@color/black" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addBtn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/add_expense"
             android:layout_marginTop="20dp"
+            android:text="@string/add_expense"
             android:textAllCaps="false"
             app:cornerRadius="10dp" />
 
     </LinearLayout>
-
-    <!--<TextView
-        android:id="@+id/tvHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Add Transaction"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/menuBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu"
-        app:layout_constraintTop_toTopOf="@id/tvHeading"
-        app:layout_constraintBottom_toBottomOf="@id/tvHeading"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="8dp" />
-
-    <TextView
-        android:id="@+id/tvAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Amount"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeading" />
-
-    <EditText
-        android:id="@+id/etAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:inputType="number"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/tvAmount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvAmount"
-        app:layout_constraintTop_toTopOf="@id/tvAmount" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Title"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAmount" />
-
-    <EditText
-        android:id="@+id/etTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:inputType="text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvTitle"
-        app:layout_constraintTop_toTopOf="@id/tvTitle" />
-
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Category"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-    <Spinner
-        android:id="@+id/categorySpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvCategory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvCategory"
-        app:layout_constraintTop_toTopOf="@id/tvCategory" />
-
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Date"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCategory" />
-
-    <include
-        android:id="@+id/dateSelector"
-        layout="@layout/date_selector_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tvDate"
-        app:layout_constraintTop_toTopOf="@id/tvDate"
-        app:layout_constraintBottom_toBottomOf="@id/tvDate"
-        android:layout_marginStart="24dp" />
-
-    &lt;!&ndash;<TextView
-        android:id="@+id/tvSelectedDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Today's Date"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/tvDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvDate"
-        app:layout_constraintTop_toTopOf="@id/tvDate" />&ndash;&gt;
-
-    <Button
-        android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDate" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

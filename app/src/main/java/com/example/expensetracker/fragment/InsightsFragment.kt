@@ -46,6 +46,7 @@ class InsightsFragment : Fragment() {
     private var transactionList: MutableList<Transaction> = mutableListOf()
     private var categoryList: MutableList<ExpenseCategory> = mutableListOf()
     private var dateToday: LocalDate = LocalDate.now()
+    private lateinit var insightsBottomSheet: InsightsBottomSheet
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +71,11 @@ class InsightsFragment : Fragment() {
         }
         binding.rightBtn.setOnClickListener {
             getTimeFrameDates(false)
+        }
+
+        binding.insightsIcon.setOnClickListener {
+            insightsBottomSheet = InsightsBottomSheet()
+            insightsBottomSheet.show(parentFragmentManager, insightsBottomSheet.tag)
         }
     }
 
@@ -248,6 +254,7 @@ class InsightsFragment : Fragment() {
             TimeFrame.YEAR -> {
                 binding.tvTime.text = "${dateToday.year}"
             }
+
         }
     }
 

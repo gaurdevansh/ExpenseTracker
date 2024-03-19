@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selector_layout"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/selector_layout">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/dateIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_calender"
         android:layout_gravity="center_vertical"
-        />
+        android:src="@drawable/ic_calender" />
 
     <TextView
         android:id="@+id/tvSelectedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15/02/2024"
-        android:textSize="16sp"
         android:layout_marginStart="8dp"
-        android:textColor="@color/black"/>
+        android:text="15/02/2024"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 </LinearLayout>
